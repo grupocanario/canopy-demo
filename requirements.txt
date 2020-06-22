@@ -1,0 +1,7 @@
+dash
+pandas
+numpy
+urllib
+json
+plotly
+datetime
