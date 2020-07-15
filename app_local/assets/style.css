@@ -4,7 +4,7 @@
 
 /* Main Layout ––––––––––––––––––––––––––––––––––––––––––––––––––*/
 body {
-  background-color: #1E1E1E !important;
+  background-color: #ffffff;
   color: #d8d8d8;
   margin: 0;
   padding: 0;
@@ -62,6 +62,7 @@ a {
 }
 .div-user-controls {
   padding-left: 55px;
+  padding-right: 55px;
   padding-top: 64px;
 }
 .div-for-dropdown {
@@ -91,6 +92,10 @@ a {
 .div-for-input {
   padding-top: 12px;
   padding-bottom: 12px;
+}
+.div-for-nav {
+  font-size: 15px;
+  padding: 0;
 }
 .div-for-slider {
   width: 100%;

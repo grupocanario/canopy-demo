@@ -73,7 +73,8 @@ Taken from https://codepen.io/chriddyp/pen/bWLwgP.css
         width: 65.3333333333%;
    }
     .nine.columns {
-        width: 74.0%;
+        width: 77.9%;
+        margin-left: 0;
    }
     .ten.columns {
         width: 82.6666666667%;
@@ -150,6 +151,7 @@ Taken from https://codepen.io/chriddyp/pen/bWLwgP.css
     font-weight: 400;
     font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: rgb(50, 50, 50);
+    padding-top: 59px !important;
   }
   /* Typography –––––––––––––––––––––––––––––––––––––––––––––––––– */
   h1, h2, h3, h4, h5, h6 {
