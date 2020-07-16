@@ -208,7 +208,7 @@ navbar_canopy = dbc.Navbar(
     color="dark",
     dark=True,
     className="row fixed-top div-for-nav navbar-default",
-    style={'bottom':'370px'}
+    style={'bottom':'700px'}
 )
 
 

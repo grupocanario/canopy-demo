@@ -1,0 +1,26 @@
+[
+    {
+        "label": "Visor de datos",
+        "class": "fa fa-home",
+        "path": "/",
+        "module": "apps.visor_datos"
+    },
+    {
+        "label": "Alerta: Sobrecosto",
+        "class": "fa fa-sobrecosto",
+        "path": "/alerta_sobrecosto",
+        "module": "apps.alerta_sobrecosto"
+    },
+    {
+        "label": "Alerta: Transparencia activa",
+        "class": "fa fa-transparencia",
+        "path": "/alerta_transparencia",
+        "module": "apps.alerta_transparencia"
+    },
+    {
+        "label": "Metodologia",
+        "class": "fa fa-metodologia",
+        "path": "/metodologia",
+        "module": "apps.metodologia"
+    },
+]
