@@ -1,6 +1,6 @@
 /* Custom App CSS Below --------------------------------- */
 /*Fonts ––––––––––––––––––––––––––––––––––––––––––––––––––*/
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 /* Main Layout ––––––––––––––––––––––––––––––––––––––––––––––––––*/
 body {
@@ -10,14 +10,14 @@ body {
   padding: 0;
 }
 h1, h2, h3, h4, h5 {
-  font-family: "Open Sans";
+  font-family: "Roboto";
   font-weight: bold;
   letter-spacing: 2.1px;
   font-size: 21px;
   padding-left: 12px;
 }
 p {
-  font-family: "Open Sans";
+  font-family: "Roboto";
   font-weight: 400;
   font-size: 14px;
   padding-left: 12px;
@@ -95,7 +95,10 @@ a {
 }
 .div-for-nav {
   font-size: 15px;
-  padding: 0;
+  height: 80px;
+  display: flex;
+  background-color: #FFD608 !important;
+  font-weight: bold;
 }
 .div-for-slider {
   width: 100%;
@@ -106,6 +109,10 @@ a {
   /*padding-bottom: 12px;*/
   /*margin-left: 8px;*/
 }
+.text_menu {
+  color: #343a40 !important;
+}
+
 .Select-control, .Select-menu-outer, .Select-multi-value-wrapper, .select-up, .is-open .Select-control {
   background-color: #1E1E1E !important;
   color: white;

@@ -318,7 +318,7 @@ Taken from https://codepen.io/chriddyp/pen/bWLwgP.css
     font-size: 90%;
   }
   li {
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
   }
   /* Tables –––––––––––––––––––––––––––––––––––––––––––––––––– */
   table {

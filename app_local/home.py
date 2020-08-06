@@ -14,13 +14,114 @@ app = dash.Dash(
 
 server = app.server
 
-navbar_children = [
-    dbc.NavItem(dbc.NavLink("Page 1", href="/page-1")),
-    dbc.NavItem(dbc.NavLink("Page 2", href="/page-2")),
-    dbc.NavItem(dbc.NavLink("Page 3", href="/page-3")),
-]
+PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
 
-navbar = dbc.Navbar(navbar_children, sticky="top")
+    #     dbc.Row(
+    #         [       
+    #             html.A(
+    #                 # Use row and col to control vertical alignment of logo / brand
+    #                 dbc.Row(
+    #                     [
+    #                         dbc.Col(html.Img(src=PLOTLY_LOGO, height="30px")),
+    #                     ]
+    #                 ),
+    #                 href="https://plot.ly",
+    #             ),
+    #             dbc.NavItem(dbc.NavLink("Page 1", href="/page-1")),
+    #             dbc.NavItem(dbc.NavLink("Page 2", href="/page-2")),
+    #             dbc.NavItem(dbc.NavLink("Page 3", href="/page-3")),
+    #         ],
+    #     )
+    # ],
+    # className='mx-auto'
+    
+navbar_children = dbc.Nav(
+    [
+        html.Div(
+            [       
+                html.A(
+                    # Use row and col to control vertical alignment of logo / brand
+                    html.Div(
+                        [
+                            html.Img(src=PLOTLY_LOGO, height="30px"),
+                        ],
+                        className='mr-5',
+                    ),
+                    href="https://plot.ly",
+                ),
+                html.Div(
+                    [
+                        dbc.NavItem(
+                            dbc.NavLink(
+                                "Visualizacion de datos", 
+                                href="/visualizacion-datos", 
+                                className='text_menu text-uppercase'
+                            )
+                        ),
+                        dbc.DropdownMenu(
+                            children=[
+                                dbc.DropdownMenuItem("Sobrecosto", href="/alerta-sobrecosto"),
+                                dbc.DropdownMenuItem("Transparencia", href="/alerta-transparencia"),
+                            ],
+                            nav=True,
+                            in_navbar=True,
+                            label="Alertas Tempranas",
+                            className='text_menu text-uppercase',
+                            style={'margin-bottom':'0 !important'}
+                        ),
+                        # dbc.NavItem(
+                        #     dbc.NavLink(
+                        #         "Metodologia", 
+                        #         href="/visualizacion-datos", 
+                        #         className='text_menu text-uppercase'
+                        #     ),
+                        #     style={'margin-bottom':'0 !important'}
+                        # ),
+                        # dbc.NavItem(
+                        #     dbc.NavLink(
+                        #         "Quienes somos", 
+                        #         href="/visualizacion-datos", 
+                        #         className='text_menu text-uppercase'
+                        #     )
+                        # ),
+                        # dbc.NavItem(
+                        #     dbc.NavLink(
+                        #         "Contacto", 
+                        #         href="/visualizacion-datos", 
+                        #         className='text_menu text-uppercase'
+                        #     )
+                        # ),
+                        dbc.NavLink(
+                            "Metodologia", 
+                            href="/visualizacion-datos", 
+                            className='text_menu text-uppercase'
+                        ),
+                        dbc.NavLink(
+                            "Quienes somos", 
+                            href="/visualizacion-datos", 
+                            className='text_menu text-uppercase'
+                        ),
+                        dbc.NavLink(
+                            "Contacto", 
+                            href="/visualizacion-datos", 
+                            className='text_menu text-uppercase'
+                        ),
+                    ],
+                    className='row ml-5'
+                ),
+            ],
+            className='row'
+        )
+    ],
+    className='mx-auto'
+)
+
+
+navbar = dbc.Navbar(
+    navbar_children, 
+    sticky="top",
+    className='div-for-nav'
+)
 
 
 # define page layout
@@ -81,11 +182,11 @@ app.layout = html.Div(
 # create callback for modifying page layout
 @app.callback(Output("content", "children"), [Input("url", "pathname")])
 def display_page(pathname):
-    if pathname == "/page-1":
+    if pathname == "/alerta-sobrecosto":
         return alerta_sobrecosto.layout
-    if pathname == "/page-2":
+    if pathname == "/alerta-transparencia":
         return alerta_transparencia.layout
-    if pathname == "/page-3":
+    if pathname == "/visualizacion-datos":
         return visor_datos.layout
     # if not recognised, return 404 message
     return html.P("404 - page not found")
