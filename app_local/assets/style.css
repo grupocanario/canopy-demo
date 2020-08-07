@@ -98,7 +98,7 @@ a {
   height: 80px;
   display: flex;
   background-color: #FFD608 !important;
-  font-weight: bold;
+  font-weight: bold !important;
 }
 .div-for-slider {
   width: 100%;
@@ -109,9 +109,10 @@ a {
   /*padding-bottom: 12px;*/
   /*margin-left: 8px;*/
 }
-.text_menu {
-  color: #343a40 !important;
+.font-home-m {
+  font-size: 1.6rem;
 }
+
 
 .Select-control, .Select-menu-outer, .Select-multi-value-wrapper, .select-up, .is-open .Select-control {
   background-color: #1E1E1E !important;
