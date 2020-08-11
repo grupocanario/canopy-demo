@@ -83,10 +83,27 @@ navbar_children = dbc.Nav(
 
 navbar = dbc.Navbar(
     navbar_children, 
-    sticky="top",
-    className='div-for-nav'
+    id='navbar',
+    sticky="top"
 )
 
+
+footer = html.Footer(
+    [
+        html.Div(
+            [
+                html.Div(
+                    [
+                        '© Copyright BizLand. All Rights Reserved '
+                    ],
+                    className='copyright'
+                )
+            ],
+            className = 'container py-4'
+        )
+    ],
+    style = {'background-color': '#343a40'}
+)
 
 # define page layout
 app.layout = html.Div(
@@ -97,6 +114,7 @@ app.layout = html.Div(
         html.Div(
             id="content"
         ),
+        footer
     ]
 )
 
@@ -115,6 +133,15 @@ def display_page(pathname):
         return visor_datos.layout
     # if not recognised, return 404 message
     return html.P("404 - page not found")
+
+# create callback for modifying navbar
+@app.callback(Output("navbar", "className"), [Input("url", "pathname")])
+def display_navbar(pathname):
+    # Navbar yellow if home
+    if pathname == "/":
+        return 'div-for-nav-yellow'
+    # Else navbar white
+    return 'div-for-nav-white'
 
 
 if __name__ == "__main__":

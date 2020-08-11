@@ -93,13 +93,40 @@ a {
   padding-top: 12px;
   padding-bottom: 12px;
 }
-.div-for-nav {
+.div-for-nav-yellow {
   font-size: 15px;
   height: 80px;
   display: flex;
   background-color: #FFD608 !important;
   font-weight: bold !important;
 }
+
+.div-for-nav-white {
+  font-size: 15px;
+  height: 80px;
+  display: flex;
+  background-color: #ffffff !important;
+  font-weight: bold !important;
+}
+
+.border-bottom-yellow {
+  border-bottom: 4px solid #FFD608;
+}
+
+.card-sources-text {
+  margin-bottom: 0;
+}
+
+.card-sources {
+  background: #ffd6086e;
+  border: 1px solid #FFD608;
+  padding: 6px;
+}
+
+.card-sources:hover {
+  background: #eef7fc;
+}
+
 .div-for-slider {
   width: 100%;
   text-align: center;
@@ -113,6 +140,9 @@ a {
   font-size: 1.6rem;
 }
 
+.copyright{
+  text-align: center;
+}
 
 .Select-control, .Select-menu-outer, .Select-multi-value-wrapper, .select-up, .is-open .Select-control {
   background-color: #1E1E1E !important;
