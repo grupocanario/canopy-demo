@@ -4,7 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-from apps import alerta_sobrecosto, alerta_transparencia, visor_datos, home_page
+from apps import alerta_sobrecosto, alerta_transparencia_new, visor_datos, home_page
 from importlib import import_module
 
 
@@ -128,7 +128,7 @@ def display_page(pathname):
     if pathname == "/alerta-sobrecosto":
         return alerta_sobrecosto.layout
     if pathname == "/alerta-transparencia":
-        return alerta_transparencia.layout
+        return alerta_transparencia_new.layout
     if pathname == "/visualizacion-datos":
         return visor_datos.layout
     # if not recognised, return 404 message

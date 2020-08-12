@@ -34,7 +34,7 @@ layout = html.Div(
                         ),
                         html.Div(
                             [
-                                html.A('Coming soon', className='btn btn-outline-secondary text-dark font-home-m', href="#"),
+                                html.A('Coming soon', className='btn btn-outline-secondary text-dark font-home-m', href="#aliados"),
                             ]
                         ),
                     ],
@@ -114,6 +114,7 @@ layout = html.Div(
                 ),
             ],
             className = 'position-relative overflow-hidden text-center',
+            id='aliados'
         )
     ]
 )
