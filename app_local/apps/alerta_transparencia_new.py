@@ -51,6 +51,12 @@ entidades_items = df_items['Municipio'].unique()
 # 2. Dataframe SECOP I & II transparency
 df_raw_transparency = pd.read_csv("https://storage.googleapis.com/secop_data/secop_2_covid_singleitem.csv")
 df_transparency = df_raw_transparency.copy()
+
+# Formatting with $ 
+df_transparency['valor_del_contrato'] = df_transparency['valor_del_contrato'].map('${:,.0f}'.format)
+# Formatting descripcion
+df_transparency['descripcion_del_proceso'] = df_transparency['descripcion_del_proceso'].str.capitalize()
+
 df_transparency = df_transparency.rename(columns={
     'nombre_entidad': 'Nombre de la entidad',
     'departamento': 'Departamento',
@@ -66,10 +72,7 @@ df_transparency = df_transparency.rename(columns={
 })
 
 df_transparency = df_transparency[['Nombre de la entidad', 'Departamento', 'Municipio', 'Proveedor adjudicado', 'Valor del contrato',
-             'Descripcion del contrato', 'ID contrato',
-             'Tipo de contrato', 'Modalidad de contratacion',  'SECOP URL']]
-
-df_transparency['SECOP URL'] = '[Link](' + df_items['SECOP URL'] + ')'
+             'Descripcion del contrato',  'SECOP URL']]
 
 
 # Table parameters ------------
@@ -183,12 +186,10 @@ layout = html.Div(
                                 html.Div (
                                     [
                                         html.Div(
-                                            # Table: Alerta: Sobrecosto
                                             "Alerta Transparencia Activa",
                                             className='col my-auto',
                                         ),
                                         html.Div(
-                                            # Table: Alerta: Sobrecosto
                                             className='col my-auto buttons-footer-table',
                                             children=[
                                                     dbc.Button("Anterior", id='previous-page', n_clicks=0, className='buttons-footer'), 
@@ -202,7 +203,7 @@ layout = html.Div(
                                     [
                                         html.Div(
                                             id='table-transparency',
-                                            className='table my-0'
+                                            className='table my-0 div-for-table-alertas'
                                         ),
                                     ],
                                     className='row mx-0',
@@ -210,12 +211,10 @@ layout = html.Div(
                                 html.Div (
                                     [
                                         html.Div(
-                                            # Table: Alerta: Sobrecosto
                                             id='count_entries',
                                             className='col my-auto',
                                         ),
                                         html.Div(
-                                            # Table: Alerta: Sobrecosto
                                             className='col my-auto buttons-footer-table',
                                             children=[
                                                     dbc.Button("Anterior", id='previous-page', n_clicks=0, className='buttons-footer'), 
@@ -286,10 +285,20 @@ def update_table(btn_prev, btn_next):
     table_transparencia = html.Table(
         # Header
         [html.Thead([html.Th(col) for col in df_transparency_subset.columns]) ] +
-        # Body
-        [html.Tr([
-            html.Td(df_transparency_subset.iloc[i][col]) for col in df_transparency_subset.columns
-        ]) for i in range(min(len(df_transparency_subset), 20))],
+        # Body - Here we stablish the link
+        [html.Tr(
+                # List comprehension
+                [
+                    html.Td(df_transparency_subset.iloc[i][col]) if col != 'SECOP URL' 
+                    # Link to SECOP URL
+                    else html.Td(
+                        html.A(html.I(className="fas fa-external-link-alt", style={'color': '#238ae5'}), href=df_transparency_subset.iloc[i][col],), 
+                        className='text-center',
+                        ) 
+                    for col in df_transparency_subset.columns
+                ]
+            )
+        for i in range(min(len(df_transparency_subset), 20))],
         # className="table border-collapse",
         id='table-transparency',
         style={"overflowY": "scroll"}

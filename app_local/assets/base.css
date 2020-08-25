@@ -322,7 +322,7 @@ Taken from https://codepen.io/chriddyp/pen/bWLwgP.css
   }
   /* Tables –––––––––––––––––––––––––––––––––––––––––––––––––– */
   table {
-    /*border-collapse: collapse;*/
+    border-collapse: collapse;
     /*border-bottom: 1px solid #8f8f8f !important;*/
     /*border-top: 1px solid #8f8f8f !important;*/
     /*border-collapse: collapse !important;*/
@@ -335,7 +335,7 @@ Taken from https://codepen.io/chriddyp/pen/bWLwgP.css
   td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #8f8f8f !important;
+    /* border-bottom: 1px solid #8f8f8f !important; */
     /*border-top: 1px solid #8f8f8f !important;*/
     border-collapse: collapse !important;
   }

@@ -192,9 +192,8 @@ layout = html.Div(
                                         ),
                                         html.Div(
                                             html.A(
-                                                html.I(
-                                                    className="fab fa-linkedin", style={'color': 'grey'}), 
-                                                    href='https://www.linkedin.com/in/cdavidgamba/', role="button",
+                                                html.I(className="fab fa-linkedin", style={'color': 'grey'}), 
+                                                href='https://www.linkedin.com/in/cdavidgamba/', role="button",
                                             ),
                                             className='social',                                        
                                         ),

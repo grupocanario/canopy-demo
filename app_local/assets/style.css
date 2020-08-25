@@ -92,6 +92,11 @@ a {
   padding: 30px;
   overflow : auto;
 }
+
+.div-for-table-alertas {
+  font-size: 13px !important;
+  overflow-y: auto;
+}
 .div-for-paragraphs{
   padding-left: 20px;
   padding-right: 20px;

@@ -110,6 +110,27 @@ table_sobrecosto = dash_table.DataTable(
 )
 
 
+steps_header = [html.Thead(
+    html.Tr(
+            html.Div(
+            'Pasos para filtrar', 
+            className='font-weight-bold text-steps font-medium py-2',
+        ),
+    ),
+)]
+
+row1 = html.Tr([html.P("1. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row2 = html.Tr([html.P("2. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row3 = html.Tr([html.P("3. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row4 = html.Tr([html.P("4. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+
+steps_body = [html.Tbody([row1, row2, row3, row4])]
+
+
+steps_table = html.Table(steps_header + steps_body)
+
+
+
 
 # Section layout --------------------
 
@@ -119,98 +140,58 @@ layout = html.Div(
             [
                 html.Div(
                     [
-                        html.H1('Transparencia Activa', className='display-4 font-weight-normal text-dark'),
-                    ],
-                    className='row pt-5',
-                    style={'justify-content': 'center'}
-                ),
-                html.Div(
-                    [
                         html.Div(
                             [
                                 html.Div(
                                     [
                                         html.Div(
                                             [
-                                                html.H3('¿Qué es?', className='display-4 font-weight-normal text-dark'),
-                                            ],
-                                            className='mb-5',
-                                        ),
-                                    
-                                        html.Div(
-                                            [
-                                                html.P(
-                                                    """And an even wittier subheading to boot. 
-                                                    Jumpstart your marketing efforts with this example based on Apple's marketing pages.""", 
-                                                    className='lead font-weight-normal text-dark font-home-m'
+                                                html.Div(
+                                                    'Alerta: Sobrecosto', 
+                                                    className='display-4 font-weight-bold text-home-title font-medium pb-4',
                                                 ),
-                                            ],
-                                            className='mb-5',
-                                        ),
-
-                                        html.Div(
-                                            [
-                                                html.H3('¿Para qué sirve?', className='display-4 font-weight-normal text-dark'),
-                                            ],
-                                            className='mb-5',
-                                        ),
-                                        html.Div(
-                                            [
-                                                html.P(
-                                                    """And an even wittier subheading to boot. 
-                                                    Jumpstart your marketing efforts with this example based on Apple's marketing pages.""", 
-                                                    className='lead font-weight-normal text-dark font-home-m'
+                                                html.Div(
+                                                    [
+                                                        html.P(
+                                                            """
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+                                                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+                                                            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+                                                            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                                            """, 
+                                                            className='lead font-weight-normal text-dark font-home-m'
+                                                        ),
+                                                    ],
+                                                    className='mb-5',
                                                 ),
-                                            ],
-                                            className='mb-5',
+                                                
+                                            ], 
+                                            className='justify-content-center mx-5 mt-5 pt-5 pb-2 paragraph-alerta',
                                         ),
-                                        
-                                    ], 
-                                    className='col justify-content-center mx-5 px-5 pt-5 pb-2',
+                                    ],
+                                    className='col',
                                 ),
                                 html.Div(
                                     [
-                                        html.Div(
-                                            [
-                                                html.H3('Pasos para filtrar', className='display-4 font-weight-normal text-dark'),
-                                            ],
-                                            className='mb-5',
-                                        ),
-                                    
-                                        html.Div(
-                                            [
-                                                html.Ol(
-                                                    [
-                                                        html.Li('Pasos para filtrar'),
-                                                        html.Li('Pasos para filtrar'),
-                                                        html.Li('Pasos para filtrar'),
-                                                        html.Li('Pasos para filtrar'),
-                                                        html.Li('Pasos para filtrar'),
-                                                        html.Li('Pasos para filtrar'), 
-                                                    ],
-                                                    className='ml-4 lead font-weight-normal text-dark font-home-m'
-                                                ),
-                                            ],
-                                            className='mb-5',
-                                        ),
+                                        steps_table
                                     ], 
-                                    className='col justify-content-center mx-5 px-5 pt-5 pb-2',
+                                    className='col-4 justify-content-center mx-5 px-5 pt-5 pb-2',
                                 ),
                             ],
-                            className='row',
+                            className='row pb-5 pt-5 div-for-alerta',
                         ),
                         html.Div(
                             [
                                 html.A(
                                     'VER ALERTA', 
-                                    className='btn btn-outline-secondary text-dark font-home-m btn-ver-alerta', 
+                                    className='btn btn-outline-secondary p-3 text-dark font-home-m btn-ver-alerta', 
                                     href="#tabla-container",
                                 ),
                             ],
                             className='row mx-auto justify-content-center mt-5',
                         ),
                     ],
-                    className='p-lg-5 mx-auto my-5',
+                    className='mx-auto mb-5 mt-1',
                 ),
             ],
         ),
@@ -220,21 +201,5 @@ layout = html.Div(
                 table_sobrecosto,
             ]
         ),
-        html.Div (
-            className='div-for-paragraphs',
-            children=[
-                html.H4("""
-                    ¡ALGUNOS TIPS PARA LA BÚSQUEDA!
-                """),
-                html.P(
-                    """
-                    Para el valor total del contrato puede utilizar los siguientes caracteres
-                    para facilitar la búsqueda =, >, >=, <, <=. En ese caso si desea realizar
-                    la búsqueda de un contrato mayor a 50.000.000 COP puede escribir >50.000.000.
-                    Si desea uno menor o igual a a 100.000.000 COP puede escribir <=100.000.000.
-                    """
-                ),
-            ]
-        )
     ]
 )

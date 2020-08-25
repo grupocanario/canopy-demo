@@ -1695,23 +1695,23 @@
     margin-bottom: 1rem;
     border-spacing:0 !important;
     color: #212529;
-    border: 1px,
+    /* border: 1px; */ 
   }
   
   .table th {
     padding: 0.75rem;
-    vertical-align: top;
+    vertical-align: middle;
     border-top: 1px solid #dee2e6;
   }
 
   .table td {
     padding: 0.75rem;
-    vertical-align: top;
-    border-top: 1px solid #dee2e6;
+    vertical-align: middle;
+    /* border-top: 1px solid #dee2e6; */
   }
   
   .table thead th {
-    vertical-align: bottom;
+    vertical-align: middle;
     border-bottom: 2px solid #dee2e6;
   }
   
