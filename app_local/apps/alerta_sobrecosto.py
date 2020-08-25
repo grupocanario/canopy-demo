@@ -109,53 +109,110 @@ table_sobrecosto = dash_table.DataTable(
     filter_action='native',
 )
 
+
+
 # Section layout --------------------
 
 layout = html.Div(
     [
-        html.Div (
-            className='div-for-paragraphs text-secondary',
-            children=[
-                # Title
+        html.Div(
+            [
                 html.Div(
                     [
-                        html.H2("Alerta: Sobrecosto"),
+                        html.H1('Transparencia Activa', className='display-4 font-weight-normal text-dark'),
                     ],
-                    className='text-left p-5'
+                    className='row pt-5',
+                    style={'justify-content': 'center'}
                 ),
                 html.Div(
                     [
-                        html.P(
-                            """
-                            En esta sección podrá acceder a los datos sobre alertas en la
-                            contratación destinada a atender la emergencia COVID-19 que posean sobrecostos,
-                            lo que quiere decir que se está adquiriendo un producto o servicio por encima
-                            del precio real.
-                            """
+                        html.Div(
+                            [
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                html.H3('¿Qué es?', className='display-4 font-weight-normal text-dark'),
+                                            ],
+                                            className='mb-5',
+                                        ),
+                                    
+                                        html.Div(
+                                            [
+                                                html.P(
+                                                    """And an even wittier subheading to boot. 
+                                                    Jumpstart your marketing efforts with this example based on Apple's marketing pages.""", 
+                                                    className='lead font-weight-normal text-dark font-home-m'
+                                                ),
+                                            ],
+                                            className='mb-5',
+                                        ),
+
+                                        html.Div(
+                                            [
+                                                html.H3('¿Para qué sirve?', className='display-4 font-weight-normal text-dark'),
+                                            ],
+                                            className='mb-5',
+                                        ),
+                                        html.Div(
+                                            [
+                                                html.P(
+                                                    """And an even wittier subheading to boot. 
+                                                    Jumpstart your marketing efforts with this example based on Apple's marketing pages.""", 
+                                                    className='lead font-weight-normal text-dark font-home-m'
+                                                ),
+                                            ],
+                                            className='mb-5',
+                                        ),
+                                        
+                                    ], 
+                                    className='col justify-content-center mx-5 px-5 pt-5 pb-2',
+                                ),
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                html.H3('Pasos para filtrar', className='display-4 font-weight-normal text-dark'),
+                                            ],
+                                            className='mb-5',
+                                        ),
+                                    
+                                        html.Div(
+                                            [
+                                                html.Ol(
+                                                    [
+                                                        html.Li('Pasos para filtrar'),
+                                                        html.Li('Pasos para filtrar'),
+                                                        html.Li('Pasos para filtrar'),
+                                                        html.Li('Pasos para filtrar'),
+                                                        html.Li('Pasos para filtrar'),
+                                                        html.Li('Pasos para filtrar'), 
+                                                    ],
+                                                    className='ml-4 lead font-weight-normal text-dark font-home-m'
+                                                ),
+                                            ],
+                                            className='mb-5',
+                                        ),
+                                    ], 
+                                    className='col justify-content-center mx-5 px-5 pt-5 pb-2',
+                                ),
+                            ],
+                            className='row',
                         ),
-                        html.P(
-                            """
-                            Como usuario puede realizar la búsqueda por las siguientes categorías:
-                            Ítem - Nombre de la entidad que contrata – Departamento – Municipio –
-                            Proveedor seleccionado – Valor del contrato – Precio por Item.
-
-
-                            """
-                        ),
-                        html.P(
-                            """
-                            Para iniciar la búsqueda debe escribir debajo del título de cada columna la palabra clave de interés.
-                            Por ejemplo en la columna Ítem: puede buscar elementos como kits de emergencia y le saldrán a nivel
-                            nacional los contratos realizados para adquirir este producto.
-                            Como otro ejemplo, si desea ver la contratación en su departamento o municipio, puede buscar escribiendo
-                            el nombre de su territorio debajo de la columna correspondiente.
-
-                            """
+                        html.Div(
+                            [
+                                html.A(
+                                    'VER ALERTA', 
+                                    className='btn btn-outline-secondary text-dark font-home-m btn-ver-alerta', 
+                                    href="#tabla-container",
+                                ),
+                            ],
+                            className='row mx-auto justify-content-center mt-5',
                         ),
                     ],
-                    className='text-left p-5'
+                    className='p-lg-5 mx-auto my-5',
                 ),
-            ]
+            ],
         ),
         html.Div (
             className='div-for-table',

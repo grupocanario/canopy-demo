@@ -4,17 +4,24 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-from apps import alerta_sobrecosto, alerta_transparencia_new, visor_datos, home_page
 from importlib import import_module
 
 
-app = dash.Dash(
-    __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
-)
+# app = dash.Dash(
+#    __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
+# )
+
+from app import app
+# El llamado de estos modulos tiene que estar DESPUES de que se crea el app.Dash
+from apps import alerta_sobrecosto, alerta_transparencia_new, visor_datos, home_page
+# Alerta transparencia necesita ser cargado despues de que cargue home. Es para que no dependa alerta transaperencia de home.
 
 server = app.server
+# app.config.suppress_callback_exceptions = True
 
-PLOTLY_LOGO = "/assets/Canopyblack.png"
+# l2 = alerta_transparencia_new.layout
+
+PLOTLY_LOGO = "/assets/canopy-black-amarillo.png"
 
 navbar_children = dbc.Nav(
     [
@@ -37,7 +44,7 @@ navbar_children = dbc.Nav(
                                 dbc.NavLink(
                                     "Visualizacion de datos", 
                                     href="/visualizacion-datos", 
-                                    className='text-uppercase btn-link font-weight-bold'
+                                    className='text-uppercase btn-link font-weight-bold font-bold px-2'
                                 )
                             ],
                             active=True
@@ -50,7 +57,7 @@ navbar_children = dbc.Nav(
                             nav=True,
                             in_navbar=True,
                             label="Alertas Tempranas",
-                            className='text-uppercase btn-link font-weight-bold',
+                            className='text-uppercase btn-link font-bold px-2',
                             style={'margin-bottom':'0 !important'},
                             toggleClassName = 'btn-link font-weight-bold',
                             bs_size='lg',
@@ -58,18 +65,18 @@ navbar_children = dbc.Nav(
                         dbc.NavLink(
                             "Metodologia", 
                             href="/visualizacion-datos", 
-                            className='text-uppercase btn-link font-weight-bold'
+                            className='text-uppercase btn-link font-weight-bold font-bold px-2'
                         ),
-                        dbc.NavLink(
-                            "Quienes somos", 
-                            href="/visualizacion-datos", 
-                            className='text-uppercase btn-link font-weight-bold'
-                        ),
-                        dbc.NavLink(
-                            "Contacto", 
-                            href="/visualizacion-datos", 
-                            className='text-uppercase btn-link font-weight-bold'
-                        ),
+                        # dbc.NavLink(
+                        #     "Quienes somos", 
+                        #     href="/visualizacion-datos", 
+                        #     className='text-uppercase btn-link font-weight-bold'
+                        # ),
+                        # dbc.NavLink(
+                        #     "Contacto", 
+                        #     href="/visualizacion-datos", 
+                        #     className='text-uppercase btn-link font-weight-bold'
+                        # ),
                     ],
                     className='row ml-5'
                 ),
@@ -94,7 +101,7 @@ footer = html.Footer(
             [
                 html.Div(
                     [
-                        '© Copyright BizLand. All Rights Reserved '
+                        '© Copyright BizLand. MIRAR EL TEMA DE LAS LICENCIAS!!!!'
                     ],
                     className='copyright'
                 )
@@ -102,7 +109,7 @@ footer = html.Footer(
             className = 'container py-4'
         )
     ],
-    style = {'background-color': '#343a40'}
+    style = {'background-color': '#343a40', 'color': '#aaaaaa'}
 )
 
 # define page layout
@@ -144,5 +151,10 @@ def display_navbar(pathname):
     return 'div-for-nav-white'
 
 
+    
+
+
 if __name__ == "__main__":
     app.run_server()
+
+
