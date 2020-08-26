@@ -5,6 +5,8 @@ import dash_table
 
 import plotly.express as px
 from plotly import graph_objs as go
+from urllib.request import urlopen
+import json
 
 # Loading dataframes
 from data import df_national_covid

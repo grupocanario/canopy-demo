@@ -608,8 +608,8 @@
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+    /* margin-right: -15px;
+    margin-left: -15px; */
   }
   
   .no-gutters {
@@ -3446,13 +3446,13 @@
   .dropdown-item:hover, .dropdown-item:focus {
     color: #16181b;
     text-decoration: none;
-    background-color: #f8f9fa;
+    background-color: #c3dd51;
   }
   
   .dropdown-item.active, .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: #007bff;
+    background-color: #629ad6;
   }
   
   .dropdown-item.disabled, .dropdown-item:disabled {

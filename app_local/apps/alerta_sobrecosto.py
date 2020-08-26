@@ -1,82 +1,22 @@
+from app import app
+
+import dash
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
-import dash_table
+from dash.dependencies import Input, Output
 
 import pandas as pd
 import numpy as np
 
-from data import df_items, entidades_items
 
+from data import df_items
 
-# Table parameters ------------
-PAGE_SIZE = 10
-PAGE_SIZE_CONTRATISTAS = 3
 
 # Dash components ---------
 
 # Table
-table_sobrecosto = dash_table.DataTable(
-    id='table-editing-simple',
-    # Data
-    columns=(
-        [{'id': c, 'name': c, 'type':'text', 'presentation':'markdown'} for c in df_items.columns]
-    ),
-    data=df_items.to_dict('records'),
-    # Table interactivity
-    # Table styling
-    style_table={
-        'overflowX': 'auto',
-        'margin': '0',
-        'overflowY': 'scroll',
-    },
-    style_data={
-        'border': '0px'
-    },
-    # Style cell
-    style_cell={
-        'fontFamily': 'Open Sans',
-        'fontSize': '15px',
-        'height': '80px',
-        'padding': '2px 22px',
-        'whiteSpace': 'inherit',
-        'overflow': 'hidden',
-        'textOverflow': 'ellipsis',
-        'backgroundColor': 'rgb(49, 48, 47)',
-        'boxShadow': '0 0',
-        'whiteSpace': 'normal',
-        'height': 'auto',
-        'minWidth': '180px', 'width': '180px', 'maxWidth': '180px'
-    },
-    # Style header
-    style_header={
-        'backgroundColor': 'rgb(63, 65, 63)',
-        'border': '0px'
-    },
-    # Style filter
-    style_filter={
-        'fontFamily': 'Open Sans',
-        'height': '40px',
-        'backgroundColor': 'rgb(217, 217, 217)',
-        'color': '#1E1E1E',
-    },
-    style_data_conditional=[{
-        'if': {
-            'column_id': 'Alerta de sobrecosto',
-            'filter_query': '{Alerta de sobrecosto} = "Si"'
-        },
-        'color': '#1E1E1E',
-        'backgroundColor': '#fecf0e',
-    }],
-    page_action='native',
-    page_size= PAGE_SIZE,
-    persistence=True,
-    sort_action='native',
-    filter_action='native',
-)
-
-
-steps_header = [html.Thead(
+steps_header_items = [html.Thead(
     html.Tr(
             html.Div(
             'Pasos para filtrar', 
@@ -90,10 +30,17 @@ row2 = html.Tr([html.P("2. And an even wittier subheading to boot.", className='
 row3 = html.Tr([html.P("3. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
 row4 = html.Tr([html.P("4. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
 
-steps_body = [html.Tbody([row1, row2, row3, row4])]
+steps_body_items = [html.Tbody([row1, row2, row3, row4])]
 
 
-steps_table = html.Table(steps_header + steps_body)
+steps_table_items = html.Table(steps_header_items + steps_body_items)
+
+# Filters table
+filter_depto_items = dcc.Dropdown(
+    options=[{'label': i, 'value': i} for i in df_items.Departamento.drop_duplicates()],
+    value=None,
+    id='filter-depto-items',
+)  
 
 
 
@@ -113,7 +60,7 @@ layout = html.Div(
                                         html.Div(
                                             [
                                                 html.Div(
-                                                    'Alerta: Sobrecosto', 
+                                                    'Alerta: Sobrecosto en Items', 
                                                     className='display-4 font-weight-bold text-home-title font-medium pb-4',
                                                 ),
                                                 html.Div(
@@ -139,7 +86,7 @@ layout = html.Div(
                                 ),
                                 html.Div(
                                     [
-                                        steps_table
+                                        steps_table_items
                                     ], 
                                     className='col-4 justify-content-center mx-5 px-5 pt-5 pb-2',
                                 ),
@@ -162,10 +109,152 @@ layout = html.Div(
             ],
         ),
         html.Div (
-            className='div-for-table',
-            children=[
-                table_sobrecosto,
-            ]
+            [
+                html.Div(
+                    [
+                        dbc.Card(
+                            [
+                                html.Div (
+                                    [
+                                        html.Div(
+                                            "Alerta Temprana - Sobrecosto en Items",
+                                            className= 'col align-items-center text-header-table',
+                                            style={'display': 'flex'},
+                                        ),
+                                        html.Div(
+                                            [
+                                                html.Div('Filtrar por departamento', className='text-header-table pb-2'),
+                                                filter_depto_items
+                                            ],
+                                            className='col pr-5'
+                                        ),
+                                    ],
+                                    className='row p-5'
+                                ),                                
+                                html.Div (
+                                    [
+                                        html.Div(
+                                            id='table-items',
+                                            className='table my-0 div-for-table-alertas'
+                                        ),
+                                    ],
+                                    className='row mx-0',
+                                ),
+                                html.Div (
+                                    [
+                                        html.Div(
+                                            id='count_entries-items',
+                                            className='col my-auto',
+                                        ),
+                                        html.Div(
+                                            className='col my-auto buttons-footer-table',
+                                            children=[
+                                                    dbc.Button("Anterior", id='previous-page-items', n_clicks=0, className='buttons-footer'), 
+                                                    dbc.Button("Siguiente", id='next-page-items', n_clicks=0, className='buttons-footer'),
+                                            ],
+                                        ),
+                                    ],
+                                    className='row mai-datatable-footer'
+                                ),
+                            ],
+                            className='border-0',
+                        ),
+                    ],
+                    className='container',
+                ),
+            ],
+            className='main-content-table',
+            id="tabla-container",
         ),
     ]
 )
+
+MIN_VAL_ITEMS = 0
+MAX_VAL_ITEMS = 10
+NUM_ENTRIES_ITEMS = 10
+
+def reload_table_counters():
+    global MIN_VAL_ITEMS
+    global MAX_VAL_ITEMS
+    global NUM_ENTRIES_ITEMS
+    MIN_VAL_ITEMS = 0
+    MAX_VAL_ITEMS = 10
+    NUM_ENTRIES_ITEMS = 10
+    return MIN_VAL_ITEMS, MAX_VAL_ITEMS, NUM_ENTRIES_ITEMS
+
+
+# create callback for modifying page layout
+@app.callback(
+    [Output("table-items", "children"),
+    Output("count_entries-items", "children"),
+    Output("previous-page-items", "disabled"),
+    Output("next-page-items", "disabled")], 
+    [Input('previous-page-items', 'n_clicks'),
+    Input('next-page-items', 'n_clicks'),
+    Input('filter-depto-items', 'value')])
+def update_table(btn_prev, btn_next, depto_filter):
+
+    global MIN_VAL_ITEMS
+    global MAX_VAL_ITEMS
+    global NUM_ENTRIES_ITEMS
+    
+    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+    
+    if 'filter-depto' in changed_id and depto_filter != None:
+        MIN_VAL_ITEMS = 0
+        MAX_VAL_ITEMS = 10
+        df_subset = df_items[df_items['Departamento']==depto_filter]
+
+
+    if depto_filter != None:
+        df_subset = df_items[df_items['Departamento']==depto_filter]
+    else:
+        df_subset = df_items.copy()
+
+    LEN_DF_COMPLETE_ITEMS = len(df_subset)
+
+
+    if 'previous-page-items' in changed_id:
+        MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
+        MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
+    elif 'next-page-items' in changed_id:
+        MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
+        MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
+
+    if MIN_VAL_ITEMS < 1:
+        disabled_prev = True
+    else:
+        disabled_prev = False
+
+    if MAX_VAL_ITEMS == LEN_DF_COMPLETE_ITEMS:
+        disabled_next = True
+    else:
+        disabled_next = False
+
+    df_subset = df_subset.iloc[MIN_VAL_ITEMS:MAX_VAL_ITEMS,:]
+
+    table_final = html.Table(
+        # Header
+        [html.Thead([html.Th(col) for col in df_subset.columns]) ] +
+        # Body - Here we stablish the link
+        [html.Tr(
+                # List comprehension
+                [
+                    html.Td(df_subset.iloc[i][col]) if col != 'SECOP URL' 
+                    # Link to SECOP URL
+                    else html.Td(
+                        html.A(html.I(className="fas fa-external-link-alt", style={'color': '#238ae5'}), href=df_subset.iloc[i][col],), 
+                        className='text-center',
+                        ) 
+                    for col in df_subset.columns
+                ]
+            )
+        for i in range(min(len(df_subset), 20))],
+        # className="table border-collapse",
+        id='table-items',
+        style={"overflowY": "scroll"}
+    )
+
+    text_entries = 'Mostrando {} a {} de {} resultados'.format(MIN_VAL_ITEMS+1, min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+1), LEN_DF_COMPLETE_ITEMS)
+    
+    return table_final, text_entries, disabled_prev, disabled_next

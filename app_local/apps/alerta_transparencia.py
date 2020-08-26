@@ -2,7 +2,6 @@ import dash
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
-import dash_table
 from dash.dependencies import Input, Output
 
 import pandas as pd
@@ -175,6 +174,16 @@ MIN_VAL = 0
 MAX_VAL = 10
 NUM_ENTRIES = 10
 
+def reload_table_counters():
+    global MIN_VAL
+    global MAX_VAL
+    global NUM_ENTRIES
+    MIN_VAL = 0
+    MAX_VAL = 10
+    NUM_ENTRIES = 10
+    return MIN_VAL, MAX_VAL, NUM_ENTRIES
+
+
 # create callback for modifying page layout
 @app.callback(
     [Output("table-transparency", "children"),
@@ -186,21 +195,25 @@ NUM_ENTRIES = 10
     Input('filter-depto', 'value')])
 def update_table(btn_prev, btn_next, depto_filter):
 
-    print(depto_filter)
-    print('------')
-    if depto_filter != None:
-        df_transparency_subset = df_transparency[df_transparency['Departamento']==depto_filter]
-    
-    else:
-        df_transparency_subset = df_transparency.copy()
-
     global MIN_VAL
     global MAX_VAL
     global NUM_ENTRIES
+
+    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+    
+    if 'filter-depto' in changed_id and depto_filter != None:
+        MIN_VAL = 0
+        MAX_VAL = 10
+        df_transparency_subset = df_transparency[df_transparency['Departamento']==depto_filter]
+
+    if depto_filter != None:
+        df_transparency_subset = df_transparency[df_transparency['Departamento']==depto_filter]
+    else:
+        df_transparency_subset = df_transparency.copy()
+
     LEN_DF_COMPLETE = len(df_transparency_subset)
 
 
-    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
 
     if 'previous-page' in changed_id:
         MIN_VAL = max(0, MIN_VAL-NUM_ENTRIES-1)
@@ -208,10 +221,6 @@ def update_table(btn_prev, btn_next, depto_filter):
     elif 'next-page' in changed_id:
         MIN_VAL = max(0, MIN_VAL+NUM_ENTRIES+1)
         MAX_VAL = min(LEN_DF_COMPLETE, MAX_VAL+NUM_ENTRIES+1)
-
-    if 'dropdown-entries' == 10:
-        MIN_VAL = MIN_VAL
-        MAX_VAL = min(LEN_DF_COMPLETE, MAX_VAL-NUM_ENTRIES-1)
 
     if MIN_VAL < 1:
         disabled_prev = True

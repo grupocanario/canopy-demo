@@ -52,7 +52,6 @@ df_items = df_items[['Alerta de sobrecosto', 'Descripción del item', 'Nombre de
              'Descripcion del contrato', 'ID contrato',
              'Tipo de contrato', 'Modalidad de contratacion',  'SECOP URL']]
 df_items['Alerta de sobrecosto'] = np.where(df_items['Alerta de sobrecosto']==True, 'Si', 'No')
-df_items['SECOP URL'] = '[Link](' + df_items['SECOP URL'] + ')'
 
 
 entidades_items = df_items['Municipio'].unique()

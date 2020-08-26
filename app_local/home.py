@@ -116,7 +116,7 @@ footer = html.Footer(
 # define page layout
 app.layout = html.Div(
     [
-        dcc.Location(id="url", pathname="/"),
+        dcc.Location(id="url", refresh='False'),
         navbar,
         # Column for user controls (SIDE BAR)
         html.Div(
@@ -134,8 +134,10 @@ def display_page(pathname):
     if pathname == "/":
         return home_page.layout
     if pathname == "/alerta-sobrecosto":
+        alerta_sobrecosto.reload_table_counters()
         return alerta_sobrecosto.layout
     if pathname == "/alerta-transparencia":
+        alerta_transparencia.reload_table_counters()
         return alerta_transparencia.layout
     if pathname == "/visualizacion-datos":
         return visor_datos.layout
@@ -143,6 +145,8 @@ def display_page(pathname):
         return metodologia.layout
     # if not recognised, return 404 message
     return html.P("404 - page not found")
+
+
 
 # create callback for modifying navbar
 @app.callback(Output("navbar", "className"), [Input("url", "pathname")])
