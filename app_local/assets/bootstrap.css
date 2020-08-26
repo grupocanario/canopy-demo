@@ -3258,16 +3258,20 @@
     display: none;
     float: left;
     min-width: 10rem;
-    padding: 0.5rem 0;
+    padding: 0.5rem 3.7rem;
     margin: 0.125rem 0 0;
     font-size: 1rem;
     color: #212529;
     text-align: left;
     list-style: none;
-    background-color: #fff;
+    background-color: rgb(193, 235, 229);
     background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem;
+    /* border: 1px solid rgba(0, 0, 0, 0.15); */
+    /* border-radius: 0.25rem; */
+  }
+
+  .dropdown-menu-navbar {
+    border: 0px !important;
   }
   
   .dropdown-menu-left {
@@ -3433,6 +3437,10 @@
     white-space: nowrap;
     background-color: transparent;
     border: 0;
+  }
+
+  .dropdown-item-nav {
+    font-size: 12px;
   }
   
   .dropdown-item:hover, .dropdown-item:focus {
@@ -8436,6 +8444,11 @@
   .py-5 {
     padding-top: 3rem !important;
   }
+
+  .pt-6,
+  .py-6 {
+    padding-top: 6rem !important;
+  }
   
   .pr-5,
   .px-5 {
@@ -8446,12 +8459,25 @@
   .py-5 {
     padding-bottom: 3rem !important;
   }
+
+  .pb-6,
+  .py-6 {
+    padding-bottom: 6rem !important;
+  }
   
   .pl-5,
   .px-5 {
     padding-left: 3rem !important;
   }
-  
+
+  .pl-8, 
+  .px-8 {
+    padding-left: 8rem !important;
+  }
+  .pr-8, 
+  .px-8 {
+      padding-right: 8rem !important;
+  }
   .m-n1 {
     margin: -0.25rem !important;
   }

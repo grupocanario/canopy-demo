@@ -5,43 +5,9 @@ import dash_table
 
 import pandas as pd
 import numpy as np
-import json
 
+from data import df_items, entidades_items
 
-# DATAFRAMES -----------------
-
-# 1. Dataframe SECOP I & II items
-df_raw_items = pd.read_csv("https://storage.googleapis.com/secop_data/secop_join_suministros_w_sobrecosto.csv")
-df_items = df_raw_items.copy()
-df_items = df_items.rename(columns={
-    'nombre_entidad': 'Nombre de la entidad',
-    'departamento': 'Departamento',
-    'ciudad': 'Municipio',
-    'id_contrato': 'ID contrato',
-    'descripcion_del_proceso': 'Descripcion del contrato',
-    'tipo_de_contrato': 'Tipo de contrato',
-    'modalidad_de_contratacion': 'Modalidad de contratacion',
-    'proveedor_adjudicado': 'Proveedor adjudicado',
-    'url': 'SECOP URL',
-    'valor_del_contrato': 'Valor del contrato',
-    'item_code': 'Código del item',
-    'item_description': 'Descripción del item',
-    'item_quantity': 'Cantidad del item',
-    'item_price': 'Precio por item',
-    'precio_piso': 'Precio minimo',
-    'precio_techo': 'Precio maximo',
-    'alarma_sobrecosto': 'Alerta de sobrecosto'
-})
-
-df_items = df_items[['Alerta de sobrecosto', 'Descripción del item', 'Nombre de la entidad', 'Departamento', 'Municipio', 'Proveedor adjudicado', 'Valor del contrato', 'Código del item',
-              'Cantidad del item', 'Precio por item', 'Precio minimo', 'Precio maximo',
-             'Descripcion del contrato', 'ID contrato',
-             'Tipo de contrato', 'Modalidad de contratacion',  'SECOP URL']]
-df_items['Alerta de sobrecosto'] = np.where(df_items['Alerta de sobrecosto']==True, 'Si', 'No')
-df_items['SECOP URL'] = '[Link](' + df_items['SECOP URL'] + ')'
-
-
-entidades_items = df_items['Municipio'].unique()
 
 # Table parameters ------------
 PAGE_SIZE = 10

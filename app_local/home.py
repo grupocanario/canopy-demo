@@ -6,14 +6,13 @@ from dash.dependencies import Input, Output
 
 from importlib import import_module
 
-
 # app = dash.Dash(
 #    __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
 # )
 
 from app import app
 # El llamado de estos modulos tiene que estar DESPUES de que se crea el app.Dash
-from apps import alerta_sobrecosto, alerta_transparencia_new, visor_datos, home_page
+from apps import alerta_sobrecosto, alerta_transparencia, visor_datos, home_page, metodologia
 # Alerta transparencia necesita ser cargado despues de que cargue home. Es para que no dependa alerta transaperencia de home.
 
 server = app.server
@@ -51,8 +50,10 @@ navbar_children = dbc.Nav(
                         ),
                         dbc.DropdownMenu(
                             children=[
-                                dbc.DropdownMenuItem("Sobrecosto", href="/alerta-sobrecosto"),
-                                dbc.DropdownMenuItem("Transparencia", href="/alerta-transparencia"),
+                                dbc.DropdownMenuItem("Sobrecosto", href="/alerta-sobrecosto", className='dropdown-item-nav'),
+                                dbc.DropdownMenuItem("Transparencia", href="/alerta-transparencia", className='dropdown-item-nav'),
+                                dbc.DropdownMenuItem("Concentración contratistas", href="/alerta-transparencia", className='dropdown-item-nav'),
+                                dbc.DropdownMenuItem("Financiacion campañas", href="/alerta-transparencia", className='dropdown-item-nav'),
                             ],
                             nav=True,
                             in_navbar=True,
@@ -64,7 +65,7 @@ navbar_children = dbc.Nav(
                         ),
                         dbc.NavLink(
                             "Metodologia", 
-                            href="/visualizacion-datos", 
+                            href="/metodologia", 
                             className='text-uppercase btn-link font-weight-bold font-bold px-2'
                         ),
                         # dbc.NavLink(
@@ -135,9 +136,11 @@ def display_page(pathname):
     if pathname == "/alerta-sobrecosto":
         return alerta_sobrecosto.layout
     if pathname == "/alerta-transparencia":
-        return alerta_transparencia_new.layout
+        return alerta_transparencia.layout
     if pathname == "/visualizacion-datos":
         return visor_datos.layout
+    if pathname == "/metodologia":
+        return metodologia.layout
     # if not recognised, return 404 message
     return html.P("404 - page not found")
 
