@@ -129,8 +129,19 @@ a {
   font-weight: bold !important;
   box-shadow: 0px 0px 12px 0px rgba(34, 34, 34, 0.07);
 }
-.div-for-alerta{
-  background-color: rgba(255, 239, 22, 0.637);
+
+.div-for-alerta-transparencia{
+  background-color:#27a2e88a;
+  padding-bottom: 5rem !important;
+}
+
+.div-for-alerta-sobrecosto{
+  background-color:#27a2e88a;
+  padding-bottom: 5rem !important;
+}
+
+.div-for-alerta-concentracion{
+  background-color:white;
   padding-bottom: 5rem !important;
 }
 
@@ -207,6 +218,24 @@ a {
   background: #f3f3f3;
 }
 
+.back-home {
+  background-image: url("/../assets/backgrounds/home_image_b.jpg") !important;
+  background-position-y: bottom;
+  background-size: cover;
+}
+
+.back-transparencia {
+  background-image: url("/../assets/backgrounds/home_image_blue.jpg") !important;
+  background-position-y: bottom;
+  background-size: cover;
+}
+
+.back-concentracion {
+  background-image: url("/../assets/backgrounds/home_image_purple.jpg") !important;
+  background-position-y: bottom;
+  background-size: cover;
+}
+
 .div-for-form .form-group {
   padding-bottom: 8px;
 }
@@ -241,13 +270,16 @@ a {
   text-align: left;
 }
 
+
 .text-mail-contact {
   color: grey;
   font-style: italic;
   font-size: 15px;
 }
 
-
+.title-visor {
+  border-bottom: 5px solid #FFD608;
+}
 .titles-metodologia{
   font-size: 25px;
   font-family: "Roboto-Medium" !important;
@@ -259,6 +291,7 @@ a {
 }
 
 .btn-ver-alerta {
+  border: 0 !important;
   background-color: #FFD608;
 }
 

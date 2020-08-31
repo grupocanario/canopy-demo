@@ -12,7 +12,7 @@ from importlib import import_module
 
 from app import app
 # El llamado de estos modulos tiene que estar DESPUES de que se crea el app.Dash
-from apps import alerta_sobrecosto, alerta_transparencia, visor_datos, home_page, metodologia
+from apps import alerta_sobrecosto, alerta_transparencia, visor_datos, home_page, metodologia, concentracion
 # Alerta transparencia necesita ser cargado despues de que cargue home. Es para que no dependa alerta transaperencia de home.
 
 server = app.server
@@ -20,7 +20,7 @@ server = app.server
 
 # l2 = alerta_transparencia_new.layout
 
-PLOTLY_LOGO = "/assets/canopy-black-amarillo.png"
+PLOTLY_LOGO = "/assets/Canopy_Black_Transparente-01.png"
 
 navbar_children = dbc.Nav(
     [
@@ -30,7 +30,7 @@ navbar_children = dbc.Nav(
                     # Use row and col to control vertical alignment of logo / brand
                     html.Div(
                         [
-                            html.Img(src=PLOTLY_LOGO, height="30px"),
+                            html.Img(src=PLOTLY_LOGO, height="50px"),
                         ],
                         className='mr-5',
                     ),
@@ -41,8 +41,8 @@ navbar_children = dbc.Nav(
                         dbc.NavItem(
                             [
                                 dbc.NavLink(
-                                    "Visualizacion de datos", 
-                                    href="/visualizacion-datos", 
+                                    "Panorama General", 
+                                    href="/panorama-general", 
                                     className='text-uppercase btn-link font-weight-bold font-bold px-2'
                                 )
                             ],
@@ -52,7 +52,7 @@ navbar_children = dbc.Nav(
                             children=[
                                 dbc.DropdownMenuItem("Sobrecosto", href="/alerta-sobrecosto", className='dropdown-item-nav'),
                                 dbc.DropdownMenuItem("Transparencia", href="/alerta-transparencia", className='dropdown-item-nav'),
-                                dbc.DropdownMenuItem("Concentración contratistas", href="/alerta-transparencia", className='dropdown-item-nav'),
+                                dbc.DropdownMenuItem("Concentración contratistas", href="/concentracion-contratistas", className='dropdown-item-nav'),
                                 dbc.DropdownMenuItem("Financiacion campañas", href="/alerta-transparencia", className='dropdown-item-nav'),
                             ],
                             nav=True,
@@ -79,7 +79,7 @@ navbar_children = dbc.Nav(
                         #     className='text-uppercase btn-link font-weight-bold'
                         # ),
                     ],
-                    className='row ml-5'
+                    className='row ml-5 pt-3'
                 ),
             ],
             className='row'
@@ -139,10 +139,14 @@ def display_page(pathname):
     if pathname == "/alerta-transparencia":
         alerta_transparencia.reload_table_counters()
         return alerta_transparencia.layout
-    if pathname == "/visualizacion-datos":
+    if pathname == "/concentracion-contratistas":
+        concentracion.reload_table_counters()
+        return concentracion.layout
+    if pathname == "/panorama-general":
         return visor_datos.layout
     if pathname == "/metodologia":
         return metodologia.layout
+        
     # if not recognised, return 404 message
     return html.P("404 - page not found")
 

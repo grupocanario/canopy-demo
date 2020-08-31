@@ -22,11 +22,11 @@ with urlopen('https://gist.githubusercontent.com/john-guerra/43c7656821069d00dcb
 fig_map_2 = px.choropleth_mapbox(df_national_covid,
                            geojson=departments,
                            locations='Code',
-                           color='Numero de contratos COVID',
+                           color='Num. contratos',
                            featureidkey='properties.DPTO',
                            hover_name='Departamento',
                            color_continuous_scale="Mint",
-                           range_color=(0, max(df_national_covid['Numero de contratos COVID'])),
+                           range_color=(0, max(df_national_covid['Num. contratos'])),
                            mapbox_style="carto-positron",
                            zoom=4,
                            center = {"lat": 4.570868, "lon": -74.2973328},
@@ -45,7 +45,12 @@ layout = html.Div(
                         html.Div(
                             [
                                 html.Div(
-                                    'Visualización de datos', 
+                                    [
+                                         html.Div(
+                                            'Panorama General', 
+                                            className='mx-auto title-visor'
+                                         ),
+                                    ],
                                     className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
                                 ),
                             ],
@@ -56,24 +61,27 @@ layout = html.Div(
                             [
                                 html.P(
                                     """
-                                    En esta sección podrá visualizar el número de contratos
-                                    que se han realizado para atender a la emergencia COVID19
-                                    por departamento. Para conocer el número, dirija el cursor
-                                    a cada departamento en el mapa.
+                                    Antes de comenzar a explorar todas las alertas que hemos creado, en 
+                                    esta sección podrás ver un panorama general de cómo se han manejado 
+                                    los contratos en referencia al COVID-19 dentro del territorio colombiano.
+                                    Las siguientes gráficas visualizan el número de contrataciones que se han 
+                                    realizado para atender a la emergencia por departamento, y un panorama general 
+                                    de las alarmas construidas. 
                                     """
                                 ),
                                 html.P(
                                     """
-                                    La siguiente gráfica le indica los departamentos donde
-                                    se encuentra la mayor concentración del presupuesto, para atender
-                                    la emergencia COVID, en unos pocos contratistas.
+                                    Para conocer el número de contratos en el mapa, pon tu cursor sobre 
+                                    el departamento que quieres revisar. Y para las otras visualizaciones 
+                                    de datos que hemos generado, podrás ver cómo las dividido los niveles 
+                                    de alerta en tres categorías diferenciadas por color:
                                     """
                                 ),
                             ],
-                            className='text-left pl-5 pr-5'
+                            className='text-left pl-5 pr-5 text-center'
                         ),
                     ],
-                    className='col',
+                    className='px-5 mx-5',
                 ),
                 html.Div(
                     [

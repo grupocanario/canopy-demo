@@ -1,47 +1,52 @@
+import dash
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
-import dash_table
+from dash.dependencies import Input, Output
 
 import pandas as pd
 import numpy as np
-import json
-from urllib.request import urlopen
 import plotly.express as px
 from plotly import graph_objs as go
+from urllib.request import urlopen
+import json
 
-# DATAFRAMES -----------------
+from data import df_national_covid
 
-# 3. Dataframe SECOP I & II map (number of COVID contracts)
-df_raw_covid = pd.read_csv("https://raw.githubusercontent.com/carlosacaro/dataton_ocp/master/secop_all_is_covid.csv")
+from app import app
+from data import df_proov, df_proov_cum
 
-df_covid = df_raw_covid.copy()
-df_national_covid = df_covid.groupby('departamento').size().reset_index(name='Numero de contratos COVID')
-df_national_covid = df_national_covid.rename(columns={'departamento':'Departamento'})
-df_national_covid['Departamento_upper'] = df_national_covid['Departamento'].str.upper()
+# Table parameters ------------
+PAGE_SIZE = 10
+PAGE_SIZE_CONTRATISTAS = 3
 
-df_codes = pd.read_csv("https://raw.githubusercontent.com/melissamnt/code_utils/master/csv_department_codes.csv",
-                   dtype={"cod": str})
-df_codes['Code'] = df_codes['Code'].astype('str')
-df_codes = df_codes.replace({'5': '05', '8': '08'})
-df_national_covid = pd.merge(df_national_covid, df_codes, left_on='Departamento_upper',  right_on='Departamento', how='left')
-df_national_covid = df_national_covid.rename(columns={'Departamento_x':'Departamento'}).drop(['Departamento_upper', 'Departamento_y'], axis=1)
+# Dash components ---------
 
-# 4. Dataframe SECOP I & II concentracion top 10 contratistas por depto
-df_raw_proov_cum = pd.read_csv("https://raw.githubusercontent.com/carlosacaro/dataton_ocp/master/cum_dept_valor.csv")
-df_proov_cum = df_raw_proov_cum.rename(columns={'0':'Departamento', '1': 'Pct proveedores'})
-df_proov_cum = df_proov_cum.drop('Unnamed: 0', axis=1)
-df_proov_cum = df_proov_cum.sort_values(by='Pct proveedores', ascending=True)
+# Table
+steps_header = [html.Thead(
+    html.Tr(
+            html.Div(
+            'Pasos para filtrar', 
+            className='font-weight-bold text-steps font-medium py-2',
+        ),
+    ),
+)]
 
-# 5. Dataframe SECOP I & II nombre de top 10 contratistas por depto
-df_raw_proov = pd.read_csv("https://raw.githubusercontent.com/carlosacaro/dataton_ocp/master/prov_dept_valor.csv")
-df_proov = df_raw_proov.rename(columns={'documento_proveedor':'Documento proveedor',
-    'departamento': 'Departamento',
-    'valor_del_contrato': 'Valor del contrato',
-    'tipodocproveedor': 'Tipo documento proveedor',
-    'proveedor_adjudicado': 'Proveedor adjudicado'})
-df_proov = df_proov.drop('Unnamed: 0', axis=1)
+row1 = html.Tr([html.P("1. En el gráfico se muestra, los departamentos donde hay mayor porcentaje de contratos entregados al top 10 de contratistas, para cada departamento.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row2 = html.Tr([html.P("2. Dentro de la tabla se podrá filtrar por departamento, nombre de contratista, NIT o C.C.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row3 = html.Tr([html.P("3. Además de los datos sobre el contratista también podrás revisar los valores de cada contrato adjudicado y el cumpercentage respectivo.", className='m-3 lead font-weight-normal text-dark font-home-m')])
 
+steps_body = [html.Tbody([row1, row2, row3])]
+
+
+steps_table = html.Table(steps_header + steps_body)
+
+# Filters table
+filter_depto = dcc.Dropdown(
+    options=[{'label': i, 'value': i} for i in df_proov.Departamento.drop_duplicates()],
+    value=None,
+    id='filter-depto-con',
+)  
 
 # GRAPHS ----------------------
 
@@ -50,14 +55,15 @@ df_proov = df_proov.drop('Unnamed: 0', axis=1)
 with urlopen('https://gist.githubusercontent.com/john-guerra/43c7656821069d00dcbc/raw/3aadedf47badbdac823b00dbe259f6bc6d9e1899/colombia.geo.json') as response:
     departments = json.load(response)
 
-fig_map_2 = px.choropleth_mapbox(df_national_covid,
+fig_map_2 = px.choropleth_mapbox(df_proov_cum,
                            geojson=departments,
                            locations='Code',
-                           color='Numero de contratos COVID',
+                           color='Pct proveedores',
                            featureidkey='properties.DPTO',
                            hover_name='Departamento',
-                           color_continuous_scale="Viridis",
-                           range_color=(0, max(df_national_covid['Numero de contratos COVID'])),
+                           color_continuous_scale="Mint",
+                        #    color_continuous_scale=["#FFF1A8", "#FFD608"],
+                           range_color=(min(df_proov_cum['Pct proveedores']), max(df_proov_cum['Pct proveedores'])),
                            mapbox_style="carto-positron",
                            zoom=4,
                            center = {"lat": 4.570868, "lon": -74.2973328},
@@ -65,93 +71,26 @@ fig_map_2 = px.choropleth_mapbox(df_national_covid,
                           )
 fig_map_2.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
-
-
-# 2. Top 10 contratistas Bar plot
+# 2. Bar Plot
 
 trace_1 = go.Bar(x=df_proov_cum['Pct proveedores'], y=df_proov_cum['Departamento'], orientation='h')
 
-layout = go.Layout(title = 'Time Series Plot',
-                   hovermode = 'closest')
-fig = go.Figure(data = [trace_1], layout = layout)
+layout = go.Layout(hovermode = 'closest')
+fig = go.Figure(data = [trace_1], layout = layout)#
 fig.update_layout(
-    title={
-        'text': "% presupuesto adjudicado a top 10 contratistas",
-        'y':0.9,
-        'x':0.5,
-        'xanchor': 'center',
-        'yanchor': 'top'
-    },
-    # margin=go.layout.Margin(l=10, r=0, t=0, b=50),
-    plot_bgcolor="#1E1E1E",
-    paper_bgcolor="#1E1E1E",
     font=dict(
-        color="#f2f2f2",
-        family="Open Sans"
-    )
-)
-
-# TABLES -----------
-PAGE_SIZE_CONTRATISTAS = 3
-
-table_contractors = dash_table.DataTable(
-    id='table-editing-simple-3',
-    # Data
-    columns=(
-        [{'id': c, 'name': c, 'type':'text', 'presentation':'markdown'} for c in df_proov.columns]
+        color="#252525",
+        family="Roboto"
     ),
-    data=df_proov.to_dict('records'),
-    # Table interactivity
-    # Table styling
-    style_table={
-        'overflowX': 'auto',
-        'margin': '0',
-        'overflowY': 'auto',
-    },
-    style_data={
-        'border': '0px'
-    },
-    # Style cell
-    style_cell={
-        'fontFamily': 'Open Sans',
-        'height': '60px',
-        'padding': '2px 22px',
-        'whiteSpace': 'inherit',
-        'overflow': 'hidden',
-        'textOverflow': 'ellipsis',
-        'backgroundColor': 'rgb(49, 48, 47)',
-        'boxShadow': '0 0',
-        'whiteSpace': 'normal',
-        'height': 'auto',
-        'minWidth': '180px', 'width': '180px', 'maxWidth': '180px'
-    },
-    # Style header
-    style_header={
-        'backgroundColor': 'rgb(63, 65, 63)',
-        'border': '0px'
-    },
-    # Style filter
-    style_filter={
-        'fontFamily': 'Open Sans',
-        'height': '40px',
-        'backgroundColor': 'rgb(217, 217, 217)',
-        'fontColor': 'black',
-    },
-    # style_data_conditional=[{
-    #     'if': {
-    #         'column_id': 'Alerta de sobrecosto',
-    #         'filter_query': '{Alerta de sobrecosto} = "Alerta"'
-    #     },
-    #     'fontColor': 'black',
-    #     'backgroundColor': '#ffb575',
-    # }],
-    page_action='native',
-    page_size= PAGE_SIZE_CONTRATISTAS,
-    persistence=True,
-    sort_action='native',
-    filter_action='native',
+    paper_bgcolor='rgba(0,0,0,0)',
+    plot_bgcolor='rgba(0,0,0,0)',
+    xaxis_title="% concentracion 10 primeros contratistas",
+    yaxis=dict(dtick = 1),
+    margin={"r":0,"t":0,"l":0,"b":0}
 )
+fig.update_traces(marker_color='#FFD608')
 
+# Section layout --------------------
 
 layout = html.Div(
     [
@@ -162,106 +101,241 @@ layout = html.Div(
                         html.Div(
                             [
                                 html.Div(
-                                    'Visualización de datos', 
-                                    className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                                    [
+                                        html.Div(
+                                            [
+                                                html.Div(
+                                                    [
+                                                        html.Div(
+                                                            [
+                                                                html.Div(
+                                                                    'Concentración de Proveedores', 
+                                                                    className='display-4 font-weight-bold text-home-title font-medium pb-4',
+                                                                ),
+                                                                html.Div(
+                                                                    [
+                                                                        html.P(
+                                                                            """
+                                                                            En esta sección puedes consultar los datos de los 10 contratistas que concentran la adjudicación de contratos por departamento. Esta información se calcula revisando por departamento el porcentaje de dinero otorgado a cada contratista , luego se genera una lista de los 10 contratistas que recibieron más contratos y con estos datos totales se mira finalmente cuál es el porcentaje total dentro de cada departamento que se destinó a quienes aparecen en este top 10. Esto con el fin de poder hacer una veeduría para alertar posibles casos de acaparación. 
+                                                                            """, 
+                                                                            className='lead font-weight-normal text-dark font-home-m'
+                                                                        ),
+                                                                    ],
+                                                                    className='mb-5',
+                                                                ),
+                                                                
+                                                            ], 
+                                                            className='justify-content-center mx-5 mt-5 pt-5 pb-2 paragraph-alerta',
+                                                        ),
+                                                    ],
+                                                    className='col',
+                                                ),
+                                                html.Div(
+                                                    [
+                                                        steps_table
+                                                    ], 
+                                                    className='col-4 justify-content-center mx-5 px-5 pt-5 pb-2',
+                                                ),
+                                            ],
+                                            className='row pb-5 pt-5 div-for-alerta-concentracion back-concentracion',
+                                        ),
+
+                                        html.Div(
+                                            [
+                                                html.A(
+                                                    'Ver Mas', 
+                                                    className='btn btn-outline-secondary p-3 text-dark font-home-m btn-ver-alerta', 
+                                                    href="#graficas",
+                                                ),
+                                            ],
+                                            className='row mx-auto justify-content-center mt-5',
+                                        ),
+                                        
+                                        html.Div(
+                                            [
+                                                html.Div(
+                                                    [
+                                                        html.Div(
+                                                            'Mapa', 
+                                                            className='row mb-2 pb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                                                        ),
+                                                        dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
+                                                    ],
+                                                    className='col div-for-graph-card'
+                                                ),
+                                                html.Div(
+                                                    [
+                                                        html.Div(
+                                                            'Concentracion por departamento', 
+                                                            className='row mb-2 pb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                                                        ),
+                                                        dcc.Graph(figure=fig),
+                                                    ],
+                                                    className='col div-for-graph-card'
+                                                ),
+                                            ],
+                                            className='row',
+                                            id='graficas',
+                                        ),
+                                    ],
                                 ),
                             ],
-                            className='text-left p-5'
-                        ),
-                        # Title
-                        html.Div(
-                            [
-                                html.P(
-                                    """
-                                    En esta sección podrá visualizar el número de contratos
-                                    que se han realizado para atender a la emergencia COVID19
-                                    por departamento. Para conocer el número, dirija el cursor
-                                    a cada departamento en el mapa.
-                                    """
-                                ),
-                                html.P(
-                                    """
-                                    La siguiente gráfica le indica los departamentos donde
-                                    se encuentra la mayor concentración del presupuesto, para atender
-                                    la emergencia COVID, en unos pocos contratistas.
-                                    """
-                                ),
-                            ],
-                            className='text-left pl-5 pr-5'
+                            className='row pb-5 pt-5 div-for-alerta-concentracion',
                         ),
                     ],
-                    className='col',
-                ),
-                dbc.Card(
-                    [
-                        dbc.CardBody(
-                            [
-                                # Title
-                                dcc.Graph(figure=fig_map_2)
-                            ],
-                        ),
-                    ],
-                    className='p-6 col shadow-sm border-0',
+                    className='mx-auto mb-5 mt-1',
                 ),
             ],
-            className="row text-secondary",
         ),
-        html.Div(
+        html.Div (
             [
                 html.Div(
                     [
                         dbc.Card(
                             [
-                                dbc.CardBody(
-                                    [   
-                                        dcc.Graph(id = 'bar-plot-items-1', figure = fig)
-                                    ]
-                                )
+                                html.Div (
+                                    [
+                                        html.Div(
+                                            "Concentracion de contratistas",
+                                            className= 'col align-items-center text-header-table',
+                                            style={'display': 'flex'},
+                                        ),
+                                        html.Div(
+                                            [
+                                                html.Div('Filtrar por departamento', className='text-header-table pb-2'),
+                                                filter_depto
+                                            ],
+                                            className='col pr-5'
+                                        ),
+                                    ],
+                                    className='row p-5'
+                                ),                                
+                                html.Div (
+                                    [
+                                        html.Div(
+                                            id='table-concentracion',
+                                            className='table my-0 div-for-table-alertas'
+                                        ),
+                                    ],
+                                    className='row mx-0',
+                                ),
+                                html.Div (
+                                    [
+                                        html.Div(
+                                            id='count_entries-conc',
+                                            className='col my-auto',
+                                        ),
+                                        html.Div(
+                                            className='col my-auto buttons-footer-table',
+                                            children=[
+                                                    dbc.Button("Anterior", id='previous-page-conc', n_clicks=0, className='buttons-footer'), 
+                                                    dbc.Button("Siguiente", id='next-page-conc', n_clicks=0, className='buttons-footer'),
+                                            ],
+                                        ),
+                                    ],
+                                    className='row mai-datatable-footer'
+                                ),
                             ],
-                            className='col shadow-sm border-0',
+                            className='border-0',
                         ),
                     ],
-                    className='col m-3'
-                ),                                            
-                html.Div(
-                    [
-                        html.Div(
-                            [
-                                html.H4('Concentracion de proveedores a nivel regional'),
-                            ],
-                            className='text-left p-5'
-                        ),
-                        html.Div (
-                            className='text-left pl-5 pr-5',
-                            children=[
-                                # Title
-                                html.P(
-                                    """
-                                    Para consultar los datos de los 10 contratistas que concentran
-                                    la adjudicación de contratos por departamento, puede acceder a
-                                    ellos en la siguiente tabla. Al aplicar el filtro de interés podrá
-                                    consultar nombre del contratista, NIT o C.C, valor total del contrato
-                                    y departamento correspondiente.
-                                    """
-                                )
-                            ]
-                        ),
-                    ],
-                    className='col'
+                    className='container',
                 ),
             ],
-            className='row text-secondary'   
+            className='main-content-table',
+            id="tabla-container",
         ),
-        html.Div(
-            [
-                html.Div(
-                    className="m-3",
-                    children=[
-                        table_contractors
-                    ]
-                ),
-            ],
-            className='row'   
-        )    
     ]
 )
+
+MIN_VAL_ITEMS = 0
+MAX_VAL_ITEMS = 10
+NUM_ENTRIES_ITEMS = 10
+
+def reload_table_counters():
+    global MIN_VAL_ITEMS
+    global MAX_VAL_ITEMS
+    global NUM_ENTRIES_ITEMS
+    MIN_VAL_ITEMS = 0
+    MAX_VAL_ITEMS = 10
+    NUM_ENTRIES_ITEMS = 10
+    return MIN_VAL_ITEMS, MAX_VAL_ITEMS, NUM_ENTRIES_ITEMS
+
+
+# create callback for modifying page layout
+@app.callback(
+    [Output("table-concentracion", "children"),
+    Output("count_entries-conc", "children"),
+    Output("previous-page-conc", "disabled"),
+    Output("next-page-conc", "disabled")], 
+    [Input('previous-page-conc', 'n_clicks'),
+    Input('next-page-conc', 'n_clicks'),
+    Input('filter-depto-con', 'value')])
+def update_table(btn_prev, btn_next, depto_filter):
+
+    global MIN_VAL_ITEMS
+    global MAX_VAL_ITEMS
+    global NUM_ENTRIES_ITEMS
+    
+    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+    
+    if 'filter-depto-con' in changed_id and depto_filter != None:
+        MIN_VAL_ITEMS = 0
+        MAX_VAL_ITEMS = 10
+        df_subset = df_proov[df_proov['Departamento']==depto_filter]
+
+
+    if depto_filter != None:
+        df_subset = df_proov[df_proov['Departamento']==depto_filter]
+    else:
+        df_subset = df_proov.copy()
+
+    LEN_DF_COMPLETE_ITEMS = len(df_subset)
+
+    # Sorting table
+    df_subset = df_subset.sort_values(by='Pct acumulado de contratos')
+
+    if 'previous-page-conc' in changed_id:
+        MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
+        MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
+    elif 'next-page-conc' in changed_id:
+        MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
+        MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
+
+    if MIN_VAL_ITEMS < 1:
+        disabled_prev = True
+    else:
+        disabled_prev = False
+
+    if MAX_VAL_ITEMS >= LEN_DF_COMPLETE_ITEMS:
+        disabled_next = True
+    else:
+        disabled_next = False
+
+    df_subset = df_subset.iloc[MIN_VAL_ITEMS:MAX_VAL_ITEMS,:]
+
+    table_final = html.Table(
+        # Header
+        [html.Thead([html.Th(col) for col in df_subset.columns]) ] +
+        # Body - Here we stablish the link
+        [html.Tr(
+                # List comprehension
+                [
+                    html.Td(df_subset.iloc[i][col]) if col != 'SECOP URL' 
+                    # Link to SECOP URL
+                    else html.Td(
+                        html.A(html.I(className="fas fa-external-link-alt", style={'color': '#238ae5'}), href=df_subset.iloc[i][col],), 
+                        className='text-center',
+                        ) 
+                    for col in df_subset.columns
+                ]
+            )
+        for i in range(min(len(df_subset), 20))],
+        # className="table border-collapse",
+        id='table-items',
+        style={"overflowY": "scroll", 'width': '100%'}
+    )
+
+    text_entries = 'Mostrando {} a {} de {} resultados'.format(MIN_VAL_ITEMS+1, min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+1), LEN_DF_COMPLETE_ITEMS)
+    
+    return table_final, text_entries, disabled_prev, disabled_next

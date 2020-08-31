@@ -23,8 +23,18 @@ layout = html.Div(
                         html.Div(
                             [
                                 html.P(
-                                    """And an even wittier subheading to boot. 
-                                    Jumpstart your marketing efforts with this example based on Apple's marketing pages.""", 
+                                    """
+                                    Esta es una plataforma creada para facilitar la veeduría ciudadana sobre los contratos que ha adjudicado el Gobierno de Colombia para la emergencia del COVID-19.
+                    
+                                    """, 
+                                    className='lead font-weight-normal text-dark font-home-m'
+                                ),
+
+                                html.P(
+                                    """
+                                    
+                                    Navega entre las alertas tempranas que hemos creado para explorar cómo están funcionando las contrataciones a lo largo del país. 
+                                    """, 
                                     className='lead font-weight-normal text-dark font-home-m'
                                 ),
                             ],
@@ -32,15 +42,14 @@ layout = html.Div(
                         ),
                         html.Div(
                             [
-                                html.A('Coming soon', className='btn btn-outline-secondary text-dark font-home-m', href="#aliados"),
+                                html.A('Comenzar a explorar', className='btn btn-outline-secondary text-dark font-home-m', href="/panorama-general"),
                             ]
                         ),
                     ],
                     className='col-md-5 p-lg-5 mx-auto my-5',
                 ),
             ],
-            className = 'position-relative overflow-hidden text-center',
-            style = {'background-color': '#FFD608'}
+            className = 'position-relative overflow-hidden text-center back-home',
         ),
         html.Div(
             [
@@ -171,7 +180,7 @@ layout = html.Div(
                             className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
                         ),
                         html.Div(
-                            'Las siguientes organizaciones apoyan el proyecto Canopy', 
+                            'El equipo detrás del proyecto Canopy', 
                             className='row mx-auto justify-content-center text-home-paragraph',
                         ),
                     ],
@@ -183,7 +192,7 @@ layout = html.Div(
                             [
                                 html.Div(
                                     [
-                                        html.Img(src='/../assets/team-1.jpg', className='div-for-image-team'),
+                                        html.Img(src='/../assets/fotos_team/david.jpeg', className='div-for-image-team'),
                                         html.Div('David Gamba', className='font-weight-bold text-names-team font-medium'),
                                         html.Div('Data Scientist', className='text-subtitle-team'),
                                         html.Div('''
@@ -202,7 +211,7 @@ layout = html.Div(
                                 ),
                                 html.Div(
                                     [
-                                        html.Img(src='/../assets/team-1.jpg', className='div-for-image-team'),
+                                        html.Img(src='/../assets/fotos_team/melissa.jpeg', className='div-for-image-team'),
                                         html.Div('Melissa Montes Martin', className='font-weight-bold text-names-team font-medium'),
                                         html.Div('Data Scientist', className='text-subtitle-team'),
                                         html.Div('''
@@ -222,7 +231,7 @@ layout = html.Div(
                                 ),
                                 html.Div(
                                     [
-                                        html.Img(src='/../assets/team-1.jpg', className='div-for-image-team'),
+                                        html.Img(src='/../assets/fotos_team/carlos.jpeg', className='div-for-image-team'),
                                         html.Div('Carlos Caro', className='font-weight-bold text-names-team font-medium'),
                                         html.Div('Data Scientist', className='text-subtitle-team'),
                                         html.Div('''

@@ -57,7 +57,7 @@ layout = html.Div(
                         ),
                     ],
                     className='py-6', 
-                    style={'background-color': 'aliceblue'}
+                    style={'background-color': '#F9E178'}
                 ),
                 html.Div(
                     [
@@ -83,7 +83,7 @@ layout = html.Div(
                         ),
                     ],
                     className='py-6', 
-                    style={'background-color': 'ivory'}
+                    style={'background-color': '#8989892e'}
                 ),
                 html.Div(
                     [
@@ -109,7 +109,7 @@ layout = html.Div(
                         ),
                     ],
                     className='py-6', 
-                    style={'background-color': 'aliceblue'}
+                    style={'background-color': '#F9E178'}
                 ),
             ]
         ),

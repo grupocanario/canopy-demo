@@ -26,12 +26,11 @@ steps_header = [html.Thead(
     ),
 )]
 
-row1 = html.Tr([html.P("1. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row2 = html.Tr([html.P("2. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row3 = html.Tr([html.P("3. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row4 = html.Tr([html.P("4. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row1 = html.Tr([html.P("1. Comienza la búsqueda filtrando por el departamento o municipio de tu interés.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row2 = html.Tr([html.P("2. Podrás ver que cada fila corresponde a un contrato que está en alarma el cumplimiento del principio de transparencia activa.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row3 = html.Tr([html.P("3. Para más información puedes ir al link de la SECOP ubicado al final de la tabla. ", className='m-3 lead font-weight-normal text-dark font-home-m')])
 
-steps_body = [html.Tbody([row1, row2, row3, row4])]
+steps_body = [html.Tbody([row1, row2, row3])]
 
 
 steps_table = html.Table(steps_header + steps_body)
@@ -68,10 +67,7 @@ layout = html.Div(
                                                     [
                                                         html.P(
                                                             """
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-                                                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                                                            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-                                                            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                                            En esta sección podrás acceder a los datos sobre alertas en la contratación destinada a atender la emergencia COVID-19. Se podrán visualizar los contratos que carezcan de una publicación adecuada de los ítems a contratar. Es decir, cada contrato que aparece en esta tabla, está aquí pues no cumple con todos los requisitos del principio de proactividad de ley 1712 de 2014 conocido como  el cumplimiento de la Transparencia Activa lo que significa que los contratistas no subieron todos los documentos que se les solicitan. 
                                                             """, 
                                                             className='lead font-weight-normal text-dark font-home-m'
                                                         ),
@@ -92,7 +88,7 @@ layout = html.Div(
                                     className='col-4 justify-content-center mx-5 px-5 pt-5 pb-2',
                                 ),
                             ],
-                            className='row pb-5 pt-5 div-for-alerta',
+                            className='row pb-5 pt-5 div-for-alerta-transparencia back-transparencia',
                         ),
                         html.Div(
                             [

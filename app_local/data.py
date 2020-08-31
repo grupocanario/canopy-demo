@@ -9,7 +9,7 @@ from urllib.request import urlopen
 df_raw_covid = pd.read_csv("https://raw.githubusercontent.com/carlosacaro/dataton_ocp/master/secop_all_is_covid.csv")
 
 df_covid = df_raw_covid.copy()
-df_national_covid = df_covid.groupby('departamento').size().reset_index(name='Numero de contratos COVID')
+df_national_covid = df_covid.groupby('departamento').size().reset_index(name='Num. contratos')
 df_national_covid = df_national_covid.rename(columns={'departamento':'Departamento'})
 df_national_covid['Departamento_upper'] = df_national_covid['Departamento'].str.upper()
 
@@ -92,18 +92,33 @@ df_transparency = df_transparency[['Nombre de la entidad', 'Departamento', 'Muni
 
 # 4. Dataframe SECOP I & II concentracion top 10 contratistas por depto
 df_raw_proov_cum = pd.read_csv("https://raw.githubusercontent.com/carlosacaro/dataton_ocp/master/cum_dept_valor.csv")
-df_proov_cum = df_raw_proov_cum.rename(columns={'0':'Departamento', '1': 'Pct proveedores'})
+df_proov_cum = df_raw_proov_cum.rename(columns={'0':'departamento', '1': 'Pct proveedores'})
 df_proov_cum = df_proov_cum.drop('Unnamed: 0', axis=1)
+
 df_proov_cum = df_proov_cum.sort_values(by='Pct proveedores', ascending=True)
+# Codes for map
+df_proov_cum['Departamento_upper'] = df_proov_cum['departamento'].str.upper()
+df_proov_cum = pd.merge(df_proov_cum, df_codes, left_on='Departamento_upper',  right_on='Departamento', how='left')
+df_proov_cum = df_proov_cum.drop(['Departamento_upper', 'Departamento'], axis=1)
+df_proov_cum = df_proov_cum.rename(columns={'departamento':'Departamento'})
+
+df_proov_cum.loc[df_proov_cum['Departamento']=='San Andrés, Providencia y Santa Catalina', 'Departamento'] = 'San Andrés'
 
 # 5. Dataframe SECOP I & II nombre de top 10 contratistas por depto
 df_raw_proov = pd.read_csv("https://raw.githubusercontent.com/carlosacaro/dataton_ocp/master/prov_dept_valor.csv")
-df_proov = df_raw_proov.rename(columns={'documento_proveedor':'Documento proveedor',
+
+df_proov = df_raw_proov.copy()
+# Formatting numbers
+df_proov['valor_del_contrato'] = df_proov['valor_del_contrato'].map('${:,.0f}'.format)
+df_proov['cumpercentage'] = df_proov['cumpercentage'].map('{:.1f}%'.format)
+
+df_proov = df_proov.rename(columns={'documento_proveedor':'Documento proveedor',
     'departamento': 'Departamento',
     'valor_del_contrato': 'Valor del contrato',
+    'cumpercentage': 'Pct acumulado de contratos',
     'tipodocproveedor': 'Tipo documento proveedor',
     'proveedor_adjudicado': 'Proveedor adjudicado'})
-df_proov = df_proov.drop('Unnamed: 0', axis=1)
+
 
 
 
