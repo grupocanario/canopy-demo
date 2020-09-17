@@ -231,7 +231,13 @@ a {
 }
 
 .back-concentracion {
-  background-image: url("/../assets/backgrounds/home_image_purple.jpg") !important;
+  background-image: url("/../assets/backgrounds/home_image_purple_1.jpg") !important;
+  background-position-y: bottom;
+  background-size: cover;
+}
+
+.back-sobrecosto {
+  background-image: url("/../assets/backgrounds/home_image_grey.jpg") !important;
   background-position-y: bottom;
   background-size: cover;
 }
@@ -293,6 +299,24 @@ a {
 .btn-ver-alerta {
   border: 0 !important;
   background-color: #FFD608;
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  background-color: #FFD608;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 2px 2px 1px 1px rgb(34 34 34 / 17%);
+}
+
+.dot-gray {
+  height: 20px;
+  width: 20px;
+  background-color: #898989;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 2px 2px 1px 1px rgb(34 34 34 / 17%);
 }
 
 .mai-datatable-footer {

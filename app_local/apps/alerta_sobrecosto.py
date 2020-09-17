@@ -1,3 +1,27 @@
+# --------------------
+# Copyright (c) 2020 Grupo Canario
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+# --------------------
+
+
+
 from app import app
 
 import dash
@@ -74,6 +98,7 @@ layout = html.Div(
                                                             """, 
                                                             className='lead font-weight-normal text-dark font-home-m'
                                                         ),
+                                                        dbc.Alert("This is a warning alert... be careful...", color="warning", style={'font-size':'15px'}, className='mt-5'),
                                                     ],
                                                     className='mb-5',
                                                 ),
@@ -91,7 +116,7 @@ layout = html.Div(
                                     className='col-4 justify-content-center mx-5 px-5 pt-5 pb-2',
                                 ),
                             ],
-                            className='row pb-5 pt-5 div-for-alerta',
+                            className='row pb-5 pt-5 div-for-alerta back-sobrecosto',
                         ),
                         html.Div(
                             [
@@ -117,7 +142,22 @@ layout = html.Div(
                                 html.Div (
                                     [
                                         html.Div(
-                                            "Alerta Temprana - Sobrecosto en Items",
+                                            [
+                                                html.Div(
+                                                    [
+                                                        html.Div(
+                                                            [
+                                                                html.Span(className='dot mr-3'),
+                                                                "Tiene alerta de sobrecosto",
+                                                                html.Br(), 
+                                                                html.Span(className='dot-gray mr-3'), 
+                                                                "No tiene alerta de sobrecosto"
+                                                            ]
+                                                        ),
+                                                    ],
+                                                    className = 'row'
+                                                ),
+                                            ],
                                             className= 'col align-items-center text-header-table',
                                             style={'display': 'flex'},
                                         ),
@@ -216,7 +256,7 @@ def update_table(btn_prev, btn_next, depto_filter):
 
     if 'previous-page-items' in changed_id:
         MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
-        MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
+        MAX_VAL_ITEMS = max(min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS-NUM_ENTRIES_ITEMS-1), NUM_ENTRIES_ITEMS)
     elif 'next-page-items' in changed_id:
         MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
         MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
@@ -240,12 +280,24 @@ def update_table(btn_prev, btn_next, depto_filter):
         [html.Tr(
                 # List comprehension
                 [
-                    html.Td(df_subset.iloc[i][col]) if col != 'SECOP URL' 
-                    # Link to SECOP URL
-                    else html.Td(
-                        html.A(html.I(className="fas fa-external-link-alt", style={'color': '#238ae5'}), href=df_subset.iloc[i][col],), 
-                        className='text-center',
-                        ) 
+                    html.Td(
+                        df_subset.iloc[i][col]) 
+                        if ((col != 'SECOP URL')&(col != 'Alerta de sobrecosto'))
+                        # Link to SECOP URL
+                        else html.Td(
+                            html.Span(className='dot'), 
+                            className='text-center',
+                            ) 
+                        if ((col == 'Alerta de sobrecosto')&(df_subset.iloc[i][col]=='Si'))
+                        else html.Td(
+                            html.Span(className='dot-gray'), 
+                            className='text-center',
+                            ) 
+                        if (((col == 'Alerta de sobrecosto')&(df_subset.iloc[i][col]!='Si')))
+                        else html.Td(
+                            html.A(html.I(className="fas fa-external-link-alt", style={'color': '#238ae5'}), href=df_subset.iloc[i][col],), 
+                            className='text-center',
+                        )
                     for col in df_subset.columns
                 ]
             )
