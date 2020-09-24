@@ -34,7 +34,7 @@ from importlib import import_module
 
 from app import app
 # El llamado de estos modulos tiene que estar DESPUES de que se crea el app.Dash
-from apps import alerta_sobrecosto, alerta_transparencia, visor_datos, home_page, metodologia, concentracion
+from apps import alerta_sobrecosto, alerta_transparencia, visor_datos, home_page, metodologia, concentracion, financiacion_campanias
 # Alerta transparencia necesita ser cargado despues de que cargue home. Es para que no dependa alerta transaperencia de home.
 
 server = app.server
@@ -75,7 +75,7 @@ navbar_children = dbc.Nav(
                                 dbc.DropdownMenuItem("Sobrecosto", href="/alerta-sobrecosto", className='dropdown-item-nav'),
                                 dbc.DropdownMenuItem("Transparencia", href="/alerta-transparencia", className='dropdown-item-nav'),
                                 dbc.DropdownMenuItem("Concentración contratistas", href="/concentracion-contratistas", className='dropdown-item-nav'),
-                                dbc.DropdownMenuItem("Financiacion campañas", href="/alerta-transparencia", className='dropdown-item-nav'),
+                                dbc.DropdownMenuItem("Financiacion campañas", href="/financiacion-campanias", className='dropdown-item-nav'),
                             ],
                             nav=True,
                             in_navbar=True,
@@ -168,6 +168,8 @@ def display_page(pathname):
         return visor_datos.layout
     if pathname == "/metodologia":
         return metodologia.layout
+    if pathname == "/financiacion-campanias":
+        return financiacion_campanias.layout
         
     # if not recognised, return 404 message
     return html.P("404 - page not found")

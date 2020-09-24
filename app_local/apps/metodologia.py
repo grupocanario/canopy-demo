@@ -35,7 +35,13 @@ layout = html.Div(
                 html.Div(
                     [
                         html.Div(
-                            'Metodología', 
+                            [
+                                html.Div(
+                                "Metodología",
+                                className = 'mx-auto title-visor',
+                                style={'display': 'inline-block'}
+                                ),
+                            ],
                             className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
                         ),
                     ],

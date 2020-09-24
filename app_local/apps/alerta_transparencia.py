@@ -77,13 +77,22 @@ layout = html.Div(
                 html.Div(
                     [
                         html.Div(
+                            className='py-5 back-transparencia'
+                        ),
+                        html.Div(
                             [
                                 html.Div(
                                     [
                                         html.Div(
                                             [
                                                 html.Div(
-                                                    'Alerta: Transparencia activa', 
+                                                    [
+                                                         html.Div(
+                                                            "Alerta: Transparencia Activa",
+                                                            className = 'mx-auto title-visor',
+                                                            style={'display': 'inline-block'}
+                                                         ),
+                                                     ],
                                                     className='display-4 font-weight-bold text-home-title font-medium pb-4',
                                                 ),
                                                 html.Div(
@@ -111,7 +120,7 @@ layout = html.Div(
                                     className='col-4 justify-content-center mx-5 px-5 pt-5 pb-2',
                                 ),
                             ],
-                            className='row pb-5 pt-5 div-for-alerta-transparencia back-transparencia',
+                            className='row pb-5 div-for-alerta-transparencia',
                         ),
                         html.Div(
                             [

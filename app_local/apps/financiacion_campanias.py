@@ -69,7 +69,7 @@ steps_table = html.Table(steps_header + steps_body)
 filter_depto = dcc.Dropdown(
     options=[{'label': i, 'value': i} for i in df_proov.Departamento.drop_duplicates()],
     value=None,
-    id='filter-depto-con',
+    id='filter-depto-fin',
 )  
 
 # GRAPHS ----------------------
@@ -138,7 +138,7 @@ layout = html.Div(
                                                                 html.Div(
                                                                     [
                                                                         html.Div(
-                                                                            "Alerta: Concentración de contratistas",
+                                                                            "Alerta: Financiación de campañas",
                                                                             className = 'mx-auto title-visor',
                                                                             style={'display': 'inline-block'}
                                                                         ),
@@ -178,7 +178,7 @@ layout = html.Div(
                                                 html.A(
                                                     'Ver Mas', 
                                                     className='btn btn-outline-secondary p-3 text-dark font-home-m btn-ver-alerta', 
-                                                    href="#graficas",
+                                                    href="#graficas-fin",
                                                 ),
                                             ],
                                             className='row mx-auto justify-content-center mt-5',
@@ -208,7 +208,7 @@ layout = html.Div(
                                                 ),
                                             ],
                                             className='row',
-                                            id='graficas',
+                                            id='graficas-fin',
                                         ),
                                     ],
                                 ),
@@ -246,7 +246,7 @@ layout = html.Div(
                                 html.Div (
                                     [
                                         html.Div(
-                                            id='table-concentracion',
+                                            id='table-financiacion',
                                             className='table my-0 div-for-table-alertas'
                                         ),
                                     ],
@@ -255,14 +255,14 @@ layout = html.Div(
                                 html.Div (
                                     [
                                         html.Div(
-                                            id='count_entries-conc',
+                                            id='count_entries-fin',
                                             className='col my-auto',
                                         ),
                                         html.Div(
                                             className='col my-auto buttons-footer-table',
                                             children=[
-                                                    dbc.Button("Anterior", id='previous-page-conc', n_clicks=0, className='buttons-footer'), 
-                                                    dbc.Button("Siguiente", id='next-page-conc', n_clicks=0, className='buttons-footer'),
+                                                    dbc.Button("Anterior", id='previous-page-fin', n_clicks=0, className='buttons-footer'), 
+                                                    dbc.Button("Siguiente", id='next-page-fin', n_clicks=0, className='buttons-footer'),
                                             ],
                                         ),
                                     ],
@@ -276,7 +276,7 @@ layout = html.Div(
                 ),
             ],
             className='main-content-table',
-            id="tabla-container",
+            id="tabla-fin",
         ),
     ]
 )
@@ -297,13 +297,13 @@ def reload_table_counters():
 
 # create callback for modifying page layout
 @app.callback(
-    [Output("table-concentracion", "children"),
-    Output("count_entries-conc", "children"),
-    Output("previous-page-conc", "disabled"),
-    Output("next-page-conc", "disabled")], 
-    [Input('previous-page-conc', 'n_clicks'),
-    Input('next-page-conc', 'n_clicks'),
-    Input('filter-depto-con', 'value')])
+    [Output("table-financiacion", "children"),
+    Output("count_entries-fin", "children"),
+    Output("previous-page-fin", "disabled"),
+    Output("next-page-fin", "disabled")], 
+    [Input('previous-page-fin', 'n_clicks'),
+    Input('next-page-fin', 'n_clicks'),
+    Input('filter-depto-fin', 'value')])
 def update_table(btn_prev, btn_next, depto_filter):
 
     global MIN_VAL_ITEMS
@@ -312,7 +312,7 @@ def update_table(btn_prev, btn_next, depto_filter):
     
     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
     
-    if 'filter-depto-con' in changed_id and depto_filter != None:
+    if 'filter-depto-fin' in changed_id and depto_filter != None:
         MIN_VAL_ITEMS = 0
         MAX_VAL_ITEMS = 10
         df_subset = df_proov[df_proov['Departamento']==depto_filter]
@@ -328,10 +328,10 @@ def update_table(btn_prev, btn_next, depto_filter):
     # Sorting table
     df_subset = df_subset.sort_values(by='Pct acumulado de contratos')
 
-    if 'previous-page-conc' in changed_id:
+    if 'previous-page-fin' in changed_id:
         MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
         MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
-    elif 'next-page-conc' in changed_id:
+    elif 'next-page-fin' in changed_id:
         MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
         MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
 
@@ -365,7 +365,7 @@ def update_table(btn_prev, btn_next, depto_filter):
             )
         for i in range(min(len(df_subset), 20))],
         # className="table border-collapse",
-        id='table-items',
+        id='table-financiacion',
         style={"overflowY": "scroll", 'width': '100%'}
     )
 

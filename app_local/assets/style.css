@@ -132,17 +132,17 @@ a {
 
 .div-for-alerta-transparencia{
   background-color:#27a2e88a;
-  padding-bottom: 5rem !important;
+  padding-bottom: 4rem !important;
 }
 
 .div-for-alerta-sobrecosto{
-  background-color:#27a2e88a;
-  padding-bottom: 5rem !important;
+  background-color:#3f3f3f59;
+  padding-bottom: 4rem !important;
 }
 
 .div-for-alerta-concentracion{
-  background-color:white;
-  padding-bottom: 5rem !important;
+  background-color: #ab80ca;
+  padding-bottom: 4rem !important;
 }
 
 .div-for-graph-card {
