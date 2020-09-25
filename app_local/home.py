@@ -38,6 +38,7 @@ from apps import alerta_sobrecosto, alerta_transparencia, visor_datos, home_page
 # Alerta transparencia necesita ser cargado despues de que cargue home. Es para que no dependa alerta transaperencia de home.
 
 server = app.server
+
 # app.config.suppress_callback_exceptions = True
 
 # l2 = alerta_transparencia_new.layout
@@ -135,14 +136,26 @@ footer = html.Footer(
     style = {'background-color': '#343a40', 'color': '#aaaaaa'}
 )
 
+
+
+
 # define page layout
 app.layout = html.Div(
     [
+        html.Div(id='blank-output'), # only for the name in the tab
         dcc.Location(id="url", refresh='False'),
         navbar,
         # Column for user controls (SIDE BAR)
-        html.Div(
-            id="content"
+        dbc.Spinner(
+            children=[
+                html.Div(
+                    id="content"
+                ),
+            ],
+            # size="lg", color="primary", type="border", 
+            spinnerClassName='spinner',
+            type=None,
+            fullscreen=True,
         ),
         footer
     ]
@@ -151,7 +164,9 @@ app.layout = html.Div(
 
 
 # create callback for modifying page layout
-@app.callback(Output("content", "children"), [Input("url", "pathname")])
+@app.callback(
+    Output("content", "children"),
+    [Input("url", "pathname")])
 def display_page(pathname):
     if pathname == "/":
         return home_page.layout
@@ -169,6 +184,7 @@ def display_page(pathname):
     if pathname == "/metodologia":
         return metodologia.layout
     if pathname == "/financiacion-campanias":
+        financiacion_campanias.reload_table_counters()
         return financiacion_campanias.layout
         
     # if not recognised, return 404 message
@@ -185,7 +201,30 @@ def display_navbar(pathname):
     # Else navbar white
     return 'div-for-nav-white'
 
-
+# Changing name of 
+app.clientside_callback(
+    """
+    function(pathname) {
+        if (pathname === '/') {
+            document.title = 'Canopy - Home'
+        } else if (pathname === '/alerta-sobrecosto') {
+            document.title = 'Canopy - Alerta Sobrecosto'
+        } else if (pathname === '/alerta-transparencia') {
+            document.title = 'Canopy - Alerta Transparencia'
+        } else if (pathname === '/concentracion-contratistas') {
+            document.title = 'Canopy - Concentración contratistas'
+        } else if (pathname === '/panorama-general') {
+            document.title = 'Canopy - Panorama General'
+        } else if (pathname === '/metodologia') {
+            document.title = 'Canopy - Metodología'
+        } else if (pathname === '/financiacion-campanias') {
+            document.title = 'Canopy - Financiación Campañas'
+        }
+    }
+    """,
+    Output('blank-output', 'children'),
+    [Input("url", "pathname")]
+)
     
 
 
