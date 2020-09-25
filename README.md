@@ -3,7 +3,7 @@
 ## About this app
 _Demo: Platform for detection of risky COVID contracts in Colombia (Canopy Platform)._
 
-You can check the resulting web page in https://proyectocanopy.co (page in Spanish)
+You can check the resulting web page in https://wwww.proyectocanopy.co (page in Spanish)
 
 ## How to run this app (locally)
 
