@@ -3,7 +3,7 @@
 ## About this app
 _Demo: Platform for detection of risky COVID contracts in Colombia (Canopy Platform)._
 
-You can check the resulting web page in https://bit.ly/2NktiZj (page in Spanish)
+You can check the resulting web page in https://proyectocanopy.co (page in Spanish)
 
 ## How to run this app (locally)
 
@@ -24,7 +24,7 @@ pip install -r requirements.txt
 Run the app:
 
 ```
-python app_local/app.py
+python app_local/home.py
 ```
 You can run the app on your browser at http://127.0.0.1:8050
 
