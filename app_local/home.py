@@ -206,7 +206,7 @@ app.clientside_callback(
     """
     function(pathname) {
         if (pathname === '/') {
-            document.title = 'Canopy - Home'
+            document.title = 'Canopy - Home '
         } else if (pathname === '/alerta-sobrecosto') {
             document.title = 'Canopy - Alerta Sobrecosto'
         } else if (pathname === '/alerta-transparencia') {
@@ -226,6 +226,8 @@ app.clientside_callback(
     [Input("url", "pathname")]
 )
     
+
+
 
 
 if __name__ == "__main__":
