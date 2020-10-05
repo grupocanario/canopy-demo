@@ -28,9 +28,6 @@ from dash.dependencies import Input, Output
 
 from importlib import import_module
 
-# app = dash.Dash(
-#    __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
-# )
 
 from app import app
 # El llamado de estos modulos tiene que estar DESPUES de que se crea el app.Dash
@@ -39,9 +36,6 @@ from apps import alerta_sobrecosto, alerta_transparencia, visor_datos, home_page
 
 server = app.server
 
-# app.config.suppress_callback_exceptions = True
-
-# l2 = alerta_transparencia_new.layout
 
 CANOPY_LOGO = "/assets/logos/Canopy_Black_Transparente-01.png"
 
@@ -133,7 +127,7 @@ footer = html.Footer(
 app.layout = html.Div(
     [
         html.Div(id='blank-output'), # only for the name in the tab
-        dcc.Location(id="url", refresh='False'),
+        dcc.Location(id="url", refresh=False),
         navbar,
         # Column for user controls (SIDE BAR)
         dbc.Spinner(
@@ -177,8 +171,8 @@ def display_page(pathname):
         financiacion_campanias.reload_table_counters()
         return financiacion_campanias.layout
         
-    # if not recognised, return 404 message
-    return html.P("404 - page not found")
+    # if not recognised, return home page
+    return home_page.layout
 
 
 
@@ -221,6 +215,6 @@ app.clientside_callback(
 
 
 if __name__ == "__main__":
-    app.run_server()
+    app.run_server(debug=True)
 
 

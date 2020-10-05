@@ -177,7 +177,7 @@ layout = html.Div(
                                     [
                                         html.Div(
                                             'Alerta Sobrecosto', 
-                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto font-medium',
+                                            className='row mb-2 display-4 font-weight-bold text-h2 mx-auto font-medium',
                                         ),
                                     ],
                                     className='col pl-5'
@@ -186,7 +186,7 @@ layout = html.Div(
                                     [
                                         html.Div(
                                             'Alerta Transparencia', 
-                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto  font-medium',
+                                            className='row mb-2 display-4 font-weight-bold text-h2 mx-auto  font-medium',
                                         ),
                                     ],
                                     className='col pl-5'
@@ -195,7 +195,7 @@ layout = html.Div(
                                     [
                                         html.Div(
                                             'Concentración de contratistas', 
-                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto font-medium',
+                                            className='row mb-2 display-4 font-weight-bold text-h2 mx-auto font-medium',
                                         ),
                                     ],
                                     className='col pl-5'
@@ -204,7 +204,7 @@ layout = html.Div(
                                     [
                                         html.Div(
                                             'Financiación de campañas', 
-                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto font-medium',
+                                            className='row mb-2 display-4 font-weight-bold text-h2 mx-auto font-medium',
                                         ),
                                     ],
                                     className='col pl-5'

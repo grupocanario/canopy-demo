@@ -145,12 +145,22 @@ a {
   padding-bottom: 4rem !important;
 }
 
+.div-for-alerta-financiacion{
+  background-color: #f8e380;
+  padding-bottom: 4rem !important;
+}
+
 .div-for-graph-card {
   padding: 5rem !important;
 }
 
 .div-for-graph-border {
   box-shadow: 0px 0px 12px 0px rgba(34, 34, 34, 0.07);
+}
+
+.div-for-graph-individual {
+  margin-left: 15rem;
+  margin-right: 15rem;
 }
 
 .div-for-image-ocp {
@@ -242,6 +252,12 @@ a {
 
 .back-sobrecosto {
   background-image: url("/../assets/backgrounds/home_image_grey.jpg") !important;
+  background-position-y: bottom;
+  background-size: cover;
+}
+
+.back-financiacion {
+  background-image: url("/../assets/backgrounds/home_image_yellow_2.jpg") !important;
   background-position-y: bottom;
   background-size: cover;
 }
@@ -363,6 +379,10 @@ a {
 
 .text-home-title {
   font-size: 25px;
+}
+
+.text-h2 {
+  font-size: 20px;
 }
 
 .text-steps {

@@ -140,6 +140,21 @@ layout = html.Div(
                             ],
                             className='row mx-auto justify-content-center mt-5',
                         ),
+                        html.Div(
+                            [
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            'Mapa', 
+                                            className='row mb-2 pb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                                        ),
+                                        dcc.Graph(className='div-for-graph-border div-for-graph-individual')
+                                    ],
+                                    className='col div-for-graph-card'
+                                ),
+                            ],
+                            className='row',
+                        ),
                     ],
                     className='mx-auto mb-5 mt-1',
                 ),
@@ -221,18 +236,18 @@ layout = html.Div(
     ]
 )
 
-MIN_VAL_ITEMS = 0
-MAX_VAL_ITEMS = 10
-NUM_ENTRIES_ITEMS = 10
+MIN_VAL_SOBRECOSTO = 0
+MAX_VAL_SOBRECOSTO = 10
+NUM_ENTRIES_SOBRECOSTO = 10
 
 def reload_table_counters():
-    global MIN_VAL_ITEMS
-    global MAX_VAL_ITEMS
-    global NUM_ENTRIES_ITEMS
-    MIN_VAL_ITEMS = 0
-    MAX_VAL_ITEMS = 10
-    NUM_ENTRIES_ITEMS = 10
-    return MIN_VAL_ITEMS, MAX_VAL_ITEMS, NUM_ENTRIES_ITEMS
+    global MIN_VAL_SOBRECOSTO
+    global MAX_VAL_SOBRECOSTO
+    global NUM_ENTRIES_SOBRECOSTO
+    MIN_VAL_SOBRECOSTO = 0
+    MAX_VAL_SOBRECOSTO = 10
+    NUM_ENTRIES_SOBRECOSTO = 10
+    return MIN_VAL_SOBRECOSTO, MAX_VAL_SOBRECOSTO, NUM_ENTRIES_SOBRECOSTO
 
 
 # create callback for modifying page layout
@@ -240,21 +255,22 @@ def reload_table_counters():
     [Output("table-items", "children"),
     Output("count_entries-items", "children"),
     Output("previous-page-items", "disabled"),
-    Output("next-page-items", "disabled")], 
+    Output("next-page-items", "disabled")
+    ], 
     [Input('previous-page-items', 'n_clicks'),
     Input('next-page-items', 'n_clicks'),
     Input('filter-depto-items', 'value')])
 def update_table(btn_prev, btn_next, depto_filter):
 
-    global MIN_VAL_ITEMS
-    global MAX_VAL_ITEMS
-    global NUM_ENTRIES_ITEMS
+    global MIN_VAL_SOBRECOSTO
+    global MAX_VAL_SOBRECOSTO
+    global NUM_ENTRIES_SOBRECOSTO
     
     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
     
     if 'filter-depto' in changed_id and depto_filter != None:
-        MIN_VAL_ITEMS = 0
-        MAX_VAL_ITEMS = 10
+        MIN_VAL_SOBRECOSTO = 0
+        MAX_VAL_SOBRECOSTO = 10
         df_subset = df_items[df_items['Departamento']==depto_filter]
 
 
@@ -267,25 +283,25 @@ def update_table(btn_prev, btn_next, depto_filter):
 
 
     if 'previous-page-items' in changed_id:
-        MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
-        MAX_VAL_ITEMS = max(min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS-NUM_ENTRIES_ITEMS-1), NUM_ENTRIES_ITEMS)
+        MIN_VAL_SOBRECOSTO = max(0, MIN_VAL_SOBRECOSTO-NUM_ENTRIES_SOBRECOSTO-1)
+        MAX_VAL_SOBRECOSTO = max(min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_SOBRECOSTO-NUM_ENTRIES_SOBRECOSTO-1), NUM_ENTRIES_SOBRECOSTO)
     elif 'next-page-items' in changed_id:
-        MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
-        MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
+        MIN_VAL_SOBRECOSTO = max(0, MIN_VAL_SOBRECOSTO+NUM_ENTRIES_SOBRECOSTO+1)
+        MAX_VAL_SOBRECOSTO = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_SOBRECOSTO+NUM_ENTRIES_SOBRECOSTO+1)
 
-    if MIN_VAL_ITEMS < 1:
+    if MIN_VAL_SOBRECOSTO < 1:
         disabled_prev = True
     else:
         disabled_prev = False
 
-    if MAX_VAL_ITEMS == LEN_DF_COMPLETE_ITEMS:
+    if MAX_VAL_SOBRECOSTO == LEN_DF_COMPLETE_ITEMS:
         disabled_next = True
     else:
         disabled_next = False
 
-    df_subset = df_subset.iloc[MIN_VAL_ITEMS:MAX_VAL_ITEMS,:]
+    df_subset = df_subset.iloc[MIN_VAL_SOBRECOSTO:MAX_VAL_SOBRECOSTO,:]
 
-    table_final = html.Table(
+    table_final = [html.Table(
         # Header
         [html.Thead([html.Th(col) for col in df_subset.columns]) ] +
         # Body - Here we stablish the link
@@ -314,11 +330,11 @@ def update_table(btn_prev, btn_next, depto_filter):
                 ]
             )
         for i in range(min(len(df_subset), 20))],
-        # className="table border-collapse",
-        id='table-items',
+        # # className="table border-collapse",
+        # id='table-items',
         style={"overflowY": "scroll"}
-    )
+    )]
 
-    text_entries = 'Mostrando {} a {} de {} resultados'.format(MIN_VAL_ITEMS+1, min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+1), LEN_DF_COMPLETE_ITEMS)
+    text_entries = 'Mostrando {} a {} de {} resultados'.format(MIN_VAL_SOBRECOSTO+1, min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_SOBRECOSTO+1), LEN_DF_COMPLETE_ITEMS)
     
     return table_final, text_entries, disabled_prev, disabled_next

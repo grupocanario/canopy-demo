@@ -183,7 +183,6 @@ layout = html.Div(
                                             ],
                                             className='row mx-auto justify-content-center mt-5',
                                         ),
-                                        
                                         html.Div(
                                             [
                                                 html.Div(
@@ -434,7 +433,7 @@ def update_table(btn_prev, btn_next, depto_filter):
             )
         for i in range(min(len(df_subset), 20))],
         # className="table border-collapse",
-        id='table-items',
+        # id='table-items',
         style={"overflowY": "scroll", 'width': '100%'}
     )
 

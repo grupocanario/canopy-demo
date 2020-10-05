@@ -66,7 +66,7 @@ steps_body = [html.Tbody([row1, row2, row3])]
 steps_table = html.Table(steps_header + steps_body)
 
 # Filters table
-filter_depto = dcc.Dropdown(
+filter_depto_fin = dcc.Dropdown(
     options=[{'label': i, 'value': i} for i in df_proov.Departamento.drop_duplicates()],
     value=None,
     id='filter-depto-fin',
@@ -127,7 +127,7 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.Div(
-                                            className='py-5 back-concentracion'
+                                            className='py-5 back-financiacion'
                                         ),
                                         html.Div(
                                             [
@@ -171,7 +171,7 @@ layout = html.Div(
                                                     className='col-4 justify-content-center mx-5 px-5 pt-5 pb-2',
                                                 ),
                                             ],
-                                            className='row pb-5 div-for-alerta-concentracion',
+                                            className='row pb-5 div-for-alerta-financiacion',
                                         ),
 
                                         html.Div(
@@ -195,21 +195,10 @@ layout = html.Div(
                                                         ),
                                                         dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
                                                     ],
-                                                    className='col div-for-graph-card'
-                                                ),
-                                                html.Div(
-                                                    [
-                                                        html.Div(
-                                                            'Concentracion por departamento', 
-                                                            className='row mb-2 pb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
-                                                        ),
-                                                        dcc.Graph(figure=fig),
-                                                    ],
-                                                    className='col div-for-graph-card'
+                                                    className='col div-for-graph-card div-for-graph-individual'
                                                 ),
                                             ],
                                             className='row',
-                                            id='graficas-fin',
                                         ),
                                     ],
                                 ),
@@ -237,7 +226,7 @@ layout = html.Div(
                                         html.Div(
                                             [
                                                 html.Div('Filtrar por departamento', className='text-header-table pb-2'),
-                                                filter_depto
+                                                filter_depto_fin
                                             ],
                                             className='col pr-5'
                                         ),
@@ -277,23 +266,22 @@ layout = html.Div(
                 ),
             ],
             className='main-content-table',
-            id="tabla-fin",
         ),
     ]
 )
 
-MIN_VAL_ITEMS = 0
-MAX_VAL_ITEMS = 10
-NUM_ENTRIES_ITEMS = 10
+MIN_VAL_CAMPANIAS = 0
+MAX_VAL_CAMPANIAS = 10
+NUM_ENTRIES_CAMPANIAS = 10
 
 def reload_table_counters():
-    global MIN_VAL_ITEMS
-    global MAX_VAL_ITEMS
-    global NUM_ENTRIES_ITEMS
-    MIN_VAL_ITEMS = 0
-    MAX_VAL_ITEMS = 10
-    NUM_ENTRIES_ITEMS = 10
-    return MIN_VAL_ITEMS, MAX_VAL_ITEMS, NUM_ENTRIES_ITEMS
+    global MIN_VAL_CAMPANIAS
+    global MAX_VAL_CAMPANIAS
+    global NUM_ENTRIES_CAMPANIAS
+    MIN_VAL_CAMPANIAS = 0
+    MAX_VAL_CAMPANIAS = 10
+    NUM_ENTRIES_CAMPANIAS = 10
+    return MIN_VAL_CAMPANIAS, MAX_VAL_CAMPANIAS, NUM_ENTRIES_CAMPANIAS
 
 
 # create callback for modifying page layout
@@ -307,15 +295,15 @@ def reload_table_counters():
     Input('filter-depto-fin', 'value')])
 def update_table(btn_prev, btn_next, depto_filter):
 
-    global MIN_VAL_ITEMS
-    global MAX_VAL_ITEMS
-    global NUM_ENTRIES_ITEMS
+    global MIN_VAL_CAMPANIAS
+    global MAX_VAL_CAMPANIAS
+    global NUM_ENTRIES_CAMPANIAS
     
     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
     
     if 'filter-depto-fin' in changed_id and depto_filter != None:
-        MIN_VAL_ITEMS = 0
-        MAX_VAL_ITEMS = 10
+        MIN_VAL_CAMPANIAS = 0
+        MAX_VAL_CAMPANIAS = 10
         df_subset = df_proov[df_proov['Departamento']==depto_filter]
 
 
@@ -330,23 +318,23 @@ def update_table(btn_prev, btn_next, depto_filter):
     df_subset = df_subset.sort_values(by='Pct acumulado de contratos')
 
     if 'previous-page-fin' in changed_id:
-        MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
-        MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS-NUM_ENTRIES_ITEMS-1)
+        MIN_VAL_CAMPANIAS = max(0, MIN_VAL_CAMPANIAS-NUM_ENTRIES_CAMPANIAS-1)
+        MAX_VAL_CAMPANIAS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_CAMPANIAS-NUM_ENTRIES_CAMPANIAS-1)
     elif 'next-page-fin' in changed_id:
-        MIN_VAL_ITEMS = max(0, MIN_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
-        MAX_VAL_ITEMS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+NUM_ENTRIES_ITEMS+1)
+        MIN_VAL_CAMPANIAS = max(0, MIN_VAL_CAMPANIAS+NUM_ENTRIES_CAMPANIAS+1)
+        MAX_VAL_CAMPANIAS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_CAMPANIAS+NUM_ENTRIES_CAMPANIAS+1)
 
-    if MIN_VAL_ITEMS < 1:
+    if MIN_VAL_CAMPANIAS < 1:
         disabled_prev = True
     else:
         disabled_prev = False
 
-    if MAX_VAL_ITEMS >= LEN_DF_COMPLETE_ITEMS:
+    if MAX_VAL_CAMPANIAS >= LEN_DF_COMPLETE_ITEMS:
         disabled_next = True
     else:
         disabled_next = False
 
-    df_subset = df_subset.iloc[MIN_VAL_ITEMS:MAX_VAL_ITEMS,:]
+    df_subset = df_subset.iloc[MIN_VAL_CAMPANIAS:MAX_VAL_CAMPANIAS,:]
 
     table_final = html.Table(
         # Header
@@ -366,10 +354,10 @@ def update_table(btn_prev, btn_next, depto_filter):
             )
         for i in range(min(len(df_subset), 20))],
         # className="table border-collapse",
-        id='table-financiacion',
+        # id='table-financiacion',
         style={"overflowY": "scroll", 'width': '100%'}
     )
 
-    text_entries = 'Mostrando {} a {} de {} resultados'.format(MIN_VAL_ITEMS+1, min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_ITEMS+1), LEN_DF_COMPLETE_ITEMS)
+    text_entries = 'Mostrando {} a {} de {} resultados'.format(MIN_VAL_CAMPANIAS+1, min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_CAMPANIAS+1), LEN_DF_COMPLETE_ITEMS)
     
     return table_final, text_entries, disabled_prev, disabled_next

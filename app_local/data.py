@@ -90,32 +90,71 @@ entidades_items = df_items['Municipio'].unique()
 
 
 # ALERTA TRANSPARENCIA -----------------
+df_transparency = pd.read_csv('s3://proyectocanopy/alarma_transparencia.csv')
 
-# 2. Dataframe SECOP I & II transparency
-df_raw_transparency = pd.read_csv("https://storage.googleapis.com/secop_data/secop_2_covid_singleitem.csv")
-df_transparency = df_raw_transparency.copy()
+# Creating alarm variables
+df_transparency['has_alarm'] = (df_transparency['reporta_items']!='SI_REPORTA')
+# Filtering
+df_transparency = df_transparency[df_transparency['has_alarm']]
 
 # Formatting with $ 
-df_transparency['valor_del_contrato'] = df_transparency['valor_del_contrato'].map('${:,.0f}'.format)
+df_transparency['valores'] = pd.to_numeric(df_transparency['valores'], errors='coerce')
+df_transparency['valores'] = df_transparency['valores'].map('${:,.0f}'.format)
 # Formatting descripcion
-df_transparency['descripcion_del_proceso'] = df_transparency['descripcion_del_proceso'].str.capitalize()
+df_transparency['detalles'] = df_transparency['detalles'].str.capitalize()
+# Formatting fechas with only date
+df_transparency['date'] = pd.to_datetime(df_transparency['fechas']).dt.date
+# Getting dates' month
+df_transparency['month'] =pd.to_datetime(df_transparency['fechas']).dt.to_period("M")
+# Capitalizing names of columns
+df_transparency['municipio'] = df_transparency['municipio'].str.title()
+df_transparency['departamento'] = df_transparency['departamento'].str.title()
+df_transparency['contratista_name'] = df_transparency['contratista_name'].str.title()
 
 df_transparency = df_transparency.rename(columns={
-    'nombre_entidad': 'Nombre de la entidad',
+    'entidades': 'Nombre de la entidad',
     'departamento': 'Departamento',
-    'ciudad': 'Municipio',
-    'id_contrato': 'ID contrato',
-    'descripcion_del_proceso': 'Descripcion del contrato',
-    'tipo_de_contrato': 'Tipo de contrato',
-    'modalidad_de_contratacion': 'Modalidad de contratacion',
-    'proveedor_adjudicado': 'Proveedor adjudicado',
-    'url': 'SECOP URL',
-    'valor_del_contrato': 'Valor del contrato',
-    'items_per_contract': 'Items por contrato'
+    'municipio': 'Municipio',
+    'date': 'Fecha del contrato',
+    'detalles': 'Descripcion del contrato',
+    'contratista_name': 'Proveedor adjudicado',
+    'contratista_ids': 'ID Proveedor',
+    'uri': 'SECOP URL',
+    'valores': 'Valor del contrato',
+    'month': 'Mes del contrato'
 })
 
-df_transparency = df_transparency[['Nombre de la entidad', 'Departamento', 'Municipio', 'Proveedor adjudicado', 'Valor del contrato',
-             'Descripcion del contrato',  'SECOP URL']]
+df_transparency = df_transparency[[ 'Fecha del contrato', 'Departamento', 'Municipio', 
+                                   'Nombre de la entidad', 'Proveedor adjudicado', 
+                                    'ID Proveedor', 'Valor del contrato',
+                                     'Descripcion del contrato',  'SECOP URL']]
+df_transparency = df_transparency.sort_values(by='Fecha del contrato', ascending=False)
+
+# # 2. Dataframe SECOP I & II transparency
+# df_raw_transparency = pd.read_csv("https://storage.googleapis.com/secop_data/secop_2_covid_singleitem.csv")
+# df_transparency = df_raw_transparency.copy()
+
+# # Formatting with $ 
+# df_transparency['valor_del_contrato'] = df_transparency['valor_del_contrato'].map('${:,.0f}'.format)
+# # Formatting descripcion
+# df_transparency['descripcion_del_proceso'] = df_transparency['descripcion_del_proceso'].str.capitalize()
+
+# df_transparency = df_transparency.rename(columns={
+#     'nombre_entidad': 'Nombre de la entidad',
+#     'departamento': 'Departamento',
+#     'ciudad': 'Municipio',
+#     'id_contrato': 'ID contrato',
+#     'descripcion_del_proceso': 'Descripcion del contrato',
+#     'tipo_de_contrato': 'Tipo de contrato',
+#     'modalidad_de_contratacion': 'Modalidad de contratacion',
+#     'proveedor_adjudicado': 'Proveedor adjudicado',
+#     'url': 'SECOP URL',
+#     'valor_del_contrato': 'Valor del contrato',
+#     'items_per_contract': 'Items por contrato'
+# })
+
+# df_transparency = df_transparency[['Nombre de la entidad', 'Departamento', 'Municipio', 'Proveedor adjudicado', 'Valor del contrato',
+#              'Descripcion del contrato',  'SECOP URL']]
 
 
 
