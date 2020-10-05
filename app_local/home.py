@@ -91,16 +91,6 @@ navbar_children = dbc.Nav(
                             href="/metodologia", 
                             className='text-uppercase btn-link font-weight-bold font-bold px-2'
                         ),
-                        # dbc.NavLink(
-                        #     "Quienes somos", 
-                        #     href="/visualizacion-datos", 
-                        #     className='text-uppercase btn-link font-weight-bold'
-                        # ),
-                        # dbc.NavLink(
-                        #     "Contacto", 
-                        #     href="/visualizacion-datos", 
-                        #     className='text-uppercase btn-link font-weight-bold'
-                        # ),
                     ],
                     className='row ml-5 pt-3'
                 ),

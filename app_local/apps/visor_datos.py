@@ -84,20 +84,13 @@ layout = html.Div(
                             [
                                 html.P(
                                     """
-                                    Antes de comenzar a explorar todas las alertas que hemos creado, en 
-                                    esta sección podrás ver un panorama general de cómo se han manejado 
-                                    los contratos en referencia al COVID-19 dentro del territorio colombiano.
-                                    Las siguientes gráficas visualizan el número de contrataciones que se han 
-                                    realizado para atender a la emergencia por departamento, y un panorama general 
-                                    de las alarmas construidas. 
+                                    Antes de comenzar a explorar todas las alertas que hemos creado, en esta sección podrás ver un panorama general de cómo se han manejado los contratos en referencia al COVID-19 dentro del territorio colombiano. Las siguientes gráficas visualizan el número de contrataciones que se han realizado para atender a la emergencia por departamento, y un panorama general de las alarmas construidas.
                                     """
                                 ),
                                 html.P(
                                     """
-                                    Para conocer el número de contratos en el mapa, pon tu cursor sobre 
-                                    el departamento que quieres revisar. Y para las otras visualizaciones 
-                                    de datos que hemos generado, podrás ver cómo las dividido los niveles 
-                                    de alerta en tres categorías diferenciadas por color:
+                                    Explora las gráficas que explican el panorama de contratación en el pais y un overview del número de alertas que hemos identificado. 
+
                                     """
                                 ),
                             ],
@@ -111,9 +104,19 @@ layout = html.Div(
                         html.Div(
                             [
                                 html.Div(
-                                    'Visualización de datos', 
+                                    'Contratación nacional para COVID-19', 
                                     className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
                                 ),
+                                html.Div(
+                                    [
+                                        html.P(
+                                            """
+                                            Número total de contratos emitidos por cada departamento para atender la emergencia.
+                                            """
+                                        ), 
+                                    ],
+                                    className='text-left pl-5 pr-5 text-center'
+                                ), 
                                 dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
                             ],
                             className='col div-for-graph-card'
@@ -121,9 +124,19 @@ layout = html.Div(
                         html.Div(
                             [
                                 html.Div(
-                                    'Visualización de datos', 
+                                    'Alertas tempranas de contratación', 
                                     className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
                                 ),
+                                html.Div(
+                                    [
+                                        html.P(
+                                            """
+                                            Número de contratos detectados de COVID-19 con alertas para cada una de las categorías. 
+                                            """
+                                        ),
+                                    ],
+                                    className='text-left pl-5 pr-5 text-center'
+                                ), 
                                 dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
                             ],
                             className='col div-for-graph-card'
@@ -141,18 +154,19 @@ layout = html.Div(
                         html.Div(
                             [
                                 html.Div(
-                                    'Visualización de datos', 
+                                    'Resumen de Alertas Tempranas', 
                                     className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
                                 ),
-                                html.P(
-                                    """
-                                    Para consultar los datos de los 10 contratistas que concentran
-                                    la adjudicación de contratos por departamento, puede acceder a
-                                    ellos en la siguiente tabla. Al aplicar el filtro de interés podrá
-                                    consultar nombre del contratista, NIT o C.C, valor total del contrato
-                                    y departamento correspondiente.
-                                    """
-                                )
+                                html.Div(
+                                    [
+                                        html.P(
+                                            """
+                                            Para el proyecto Canopy construimos 4 alertas tempranas, cada una reflejando posibles riesgos en el proceso de contratación en la emergencia del COVID-19. Para más información sobre una alerta específica, dirígete a la pestaña Alertas Tempranas y escoge la alerta de tu interés.
+                                            """
+                                        ),
+                                    ],
+                                    className='text-center pr-5'
+                                ),
                             ],
                             className='text-left p-5'
                         ),
@@ -162,40 +176,160 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.Div(
-                                            'Visualización de datos', 
-                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                                            'Alerta Sobrecosto', 
+                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto font-medium',
                                         ),
-                                        dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
                                     ],
-                                    className='col div-for-graph-card'
+                                    className='col pl-5'
                                 ),
                                 html.Div(
                                     [
                                         html.Div(
-                                            'Visualización de datos', 
-                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                                            'Alerta Transparencia', 
+                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto  font-medium',
                                         ),
-                                        dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
                                     ],
-                                    className='col div-for-graph-card'
+                                    className='col pl-5'
                                 ),
                                 html.Div(
                                     [
                                         html.Div(
-                                            'Visualización de datos', 
-                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                                            'Concentración de contratistas', 
+                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto font-medium',
                                         ),
-                                        dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
                                     ],
-                                    className='col div-for-graph-card'
+                                    className='col pl-5'
+                                ),
+                                 html.Div(
+                                    [
+                                        html.Div(
+                                            'Financiación de campañas', 
+                                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto font-medium',
+                                        ),
+                                    ],
+                                    className='col pl-5'
                                 )
                             ],
-                            className='row pl-5 pr-5'
+                            className='row pl-5 pr-5 py-3'
+                        ),
+                        # Texto
+                        html.Div(
+                            [
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                html.P(
+                                                    """
+                                                    Esta alerta se concentra en contratos de compraventa de items destinados para la mitigación de la pandemia. Comparamos los precios por item reportados en SECOP vs. los precios máximos en los Acuerdos Marco de Colombia Compra Eficiente para evidenciar posibles sobrecostos. 
+                                                    """
+                                                ),
+                                            ],
+                                            className='text-left pr-5'
+                                        ),
+                                    ],
+                                    className='col pl-5'
+                                ),
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                html.P(
+                                                    """
+                                                    Esta alerta comprueba si NO fueron reportados en SECOP II dos partes importantes del proceso de contratación: los competidores y la etapa de planeación. 
+                                                    """
+                                                ),
+                                            ],
+                                            className='text-left pr-5'
+                                        ),
+                                    ],
+                                    className='col pl-5'
+                                ),
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                html.P(
+                                                    """
+                                                    En esta pestaña se muestra un indicador que refleja la concentración de la adjudicación de contratos por departamento en los 10 primeros contratistas. A mayor concentración en un departamento, mayor riesgo de concentracion de adjudicación de contratos. 
+                                                    """
+                                                ),
+                                            ],
+                                            className='text-left pr-5 '
+                                        ),
+                                    ],
+                                    className='col pl-5'
+                                ),
+                                 html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                html.P(
+                                                    """
+                                                    Esta sección muestra quiénes de los contratistas a los que se le adjudicaron contratos financiaron campañas políticas. Los financiadores de campañas políticas se toman de la herramienta Monitor Ciudadano de Transparencia por Colombia. 
+                                                    """
+                                                ),
+                                            ],
+                                            className='text-left pr-5 '
+                                        ),
+                                    ],
+                                    className='col pl-5'
+                                )
+                            ],
+                            className='row pl-5 pr-5 pb-5'
+                        ),
+                        # Botones
+                        html.Div(
+                            [
+                                html.Div(
+                                    [
+                                         html.A(
+                                            'Ir a Sobrecosto', 
+                                            className='btn btn-outline-secondary p-3 text-dark font-home-m btn-ver-alerta', 
+                                            href="/alerta-sobrecosto",
+                                        ),
+                                    ],
+                                    className='col pl-5'
+                                ),
+                                html.Div(
+                                    [
+                                        html.A(
+                                            'Ir a Transparencia', 
+                                            className='btn btn-outline-secondary p-3 text-dark font-home-m btn-ver-alerta', 
+                                            href="/alerta-transparencia",
+                                        ),
+                                    ],
+                                    className='col pl-5'
+                                ),
+                                html.Div(
+                                    [
+                                        html.A(
+                                            'Ir a Concentración', 
+                                            className='btn btn-outline-secondary p-3 text-dark font-home-m btn-ver-alerta', 
+                                            href="/concentracion-contratistas",
+                                        ),
+                                    ],
+                                    className='col pl-5'
+                                ),
+                                 html.Div(
+                                    [
+                                        html.A(
+                                            'Ir a Financiación', 
+                                            className='btn btn-outline-secondary p-3 text-dark font-home-m btn-ver-alerta', 
+                                            href="/financiacion-campanias",
+                                        ),
+                                    ],
+                                    className='col pl-5'
+                                )
+                            ],
+                            className='row pl-5 pr-5 pb-5'
                         ),
                     ],
+                    
                 ),
             ],
-            className='mb-5',
+            className='py-5',
+            style={'background-color': '#f3f3f3'}
         ),
     ]
 )

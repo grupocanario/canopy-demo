@@ -56,9 +56,9 @@ steps_header = [html.Thead(
     ),
 )]
 
-row1 = html.Tr([html.P("1. En el gráfico se muestra, los departamentos donde hay mayor porcentaje de contratos entregados al top 10 de contratistas, para cada departamento.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row2 = html.Tr([html.P("2. Dentro de la tabla se podrá filtrar por departamento, nombre de contratista, NIT o C.C.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row3 = html.Tr([html.P("3. Además de los datos sobre el contratista también podrás revisar los valores de cada contrato adjudicado y el cumpercentage respectivo.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row1 = html.Tr([html.P("1. Comienza la búsqueda filtrando por el departamento tu interés.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row2 = html.Tr([html.P("2. En la tabla podrás ver el costo de los contratos adjudicados, y los datos del respectivo financiador.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row3 = html.Tr([html.P("3. Para más información puedes ir al link de la SECOP ubicado al final de la tabla.", className='m-3 lead font-weight-normal text-dark font-home-m')])
 
 steps_body = [html.Tbody([row1, row2, row3])]
 
@@ -149,7 +149,8 @@ layout = html.Div(
                                                                     [
                                                                         html.P(
                                                                             """
-                                                                            En esta sección puedes consultar los datos de los 10 contratistas que concentran la adjudicación de contratos por departamento. Esta información se calcula revisando por departamento el porcentaje de dinero otorgado a cada contratista , luego se genera una lista de los 10 contratistas que recibieron más contratos y con estos datos totales se mira finalmente cuál es el porcentaje total dentro de cada departamento que se destinó a quienes aparecen en este top 10. Esto con el fin de poder hacer una veeduría para alertar posibles casos de acaparación. 
+                                                                            En esta sección podrás acceder a una base de datos donde se muestra quiénes de los contratistas a los que se le adjudicaron contratos financiaron campañas políticas.
+                                                                            Adicionalmente podrás observar los partidos políticos y el candidato que fueron financiados por estos contratistas. 
                                                                             """, 
                                                                             className='lead font-weight-normal text-dark font-home-m'
                                                                         ),

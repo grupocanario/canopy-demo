@@ -57,8 +57,8 @@ steps_header = [html.Thead(
 )]
 
 row1 = html.Tr([html.P("1. En el gráfico se muestra, los departamentos donde hay mayor porcentaje de contratos entregados al top 10 de contratistas, para cada departamento.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row2 = html.Tr([html.P("2. Dentro de la tabla se podrá filtrar por departamento, nombre de contratista, NIT o C.C.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row3 = html.Tr([html.P("3. Además de los datos sobre el contratista también podrás revisar los valores de cada contrato adjudicado y el cumpercentage respectivo.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row2 = html.Tr([html.P("2. Dentro de la tabla se podrá filtrar por Departamento, y puedes observar el Nombre de los 10 contratistas, mas su NIT o C.C.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row3 = html.Tr([html.P("3. Además de los datos sobre el contratista también podrás revisar los valores de cada contrato adjudicado y el porcentaje adjudicado al mismo.", className='m-3 lead font-weight-normal text-dark font-home-m')])
 
 steps_body = [html.Tbody([row1, row2, row3])]
 
@@ -224,52 +224,121 @@ layout = html.Div(
             [
                 html.Div(
                     [
-                        dbc.Card(
-                            [
-                                html.Div (
-                                    [
-                                        html.Div(
-                                            "Concentracion de contratistas",
-                                            className= 'col align-items-center text-header-table',
-                                            style={'display': 'flex'},
-                                        ),
-                                        html.Div(
+                        dcc.Tabs(
+                            id="tabs-styled-with-props", 
+                            value='tab-1',
+                            colors={
+                                "border": "white",
+                                "primary": "gold",
+                                "background": "cornsilk"
+                            }, 
+                            children=[
+                                dcc.Tab(
+                                    label='Por valor del contrato', 
+                                    value='tab-1',
+                                    children=[
+                                        # dbc.Card(
+                                        #     [
+                                        #         html.Div (
+                                        #             [
+                                        #                 html.Div(
+                                        #                     "Concentracion de contratistas",
+                                        #                     className= 'col align-items-center text-header-table',
+                                        #                     style={'display': 'flex'},
+                                        #                 ),
+                                        #                 html.Div(
+                                        #                     [
+                                        #                         html.Div('Filtrar por departamento', className='text-header-table pb-2'),
+                                        #                         filter_depto
+                                        #                     ],
+                                        #                     className='col pr-5'
+                                        #                 ),
+                                        #             ],
+                                        #             className='row p-5'
+                                        #         ),                                
+                                        #         html.Div (
+                                        #             [
+                                        #                 html.Div(
+                                        #                     id='table-concentracion',
+                                        #                     className='table my-0 div-for-table-alertas'
+                                        #                 ),
+                                        #             ],
+                                        #             className='row mx-0',
+                                        #         ),
+                                        #         html.Div (
+                                        #             [
+                                        #                 html.Div(
+                                        #                     id='count_entries-conc',
+                                        #                     className='col my-auto',
+                                        #                 ),
+                                        #                 html.Div(
+                                        #                     className='col my-auto buttons-footer-table',
+                                        #                     children=[
+                                        #                             dbc.Button("Anterior", id='previous-page-conc', n_clicks=0, className='buttons-footer'), 
+                                        #                             dbc.Button("Siguiente", id='next-page-conc', n_clicks=0, className='buttons-footer'),
+                                        #                     ],
+                                        #                 ),
+                                        #             ],
+                                        #             className='row mai-datatable-footer'
+                                        #         ),
+                                        #     ],
+                                        #     className='border-0',
+                                        # ),
+                                    ],
+                                ),
+                                dcc.Tab(
+                                    label='Por cantidad de contratos', 
+                                    value='tab-2',
+                                    children=[
+                                        dbc.Card(
                                             [
-                                                html.Div('Filtrar por departamento', className='text-header-table pb-2'),
-                                                filter_depto
+                                                html.Div (
+                                                    [
+                                                        html.Div(
+                                                            "Concentracion de contratistas",
+                                                            className= 'col align-items-center text-header-table',
+                                                            style={'display': 'flex'},
+                                                        ),
+                                                        html.Div(
+                                                            [
+                                                                html.Div('Filtrar por departamento', className='text-header-table pb-2'),
+                                                                filter_depto
+                                                            ],
+                                                            className='col pr-5'
+                                                        ),
+                                                    ],
+                                                    className='row p-5'
+                                                ),                                
+                                                html.Div (
+                                                    [
+                                                        html.Div(
+                                                            id='table-concentracion',
+                                                            className='table my-0 div-for-table-alertas'
+                                                        ),
+                                                    ],
+                                                    className='row mx-0',
+                                                ),
+                                                html.Div (
+                                                    [
+                                                        html.Div(
+                                                            id='count_entries-conc',
+                                                            className='col my-auto',
+                                                        ),
+                                                        html.Div(
+                                                            className='col my-auto buttons-footer-table',
+                                                            children=[
+                                                                    dbc.Button("Anterior", id='previous-page-conc', n_clicks=0, className='buttons-footer'), 
+                                                                    dbc.Button("Siguiente", id='next-page-conc', n_clicks=0, className='buttons-footer'),
+                                                            ],
+                                                        ),
+                                                    ],
+                                                    className='row mai-datatable-footer'
+                                                ),
                                             ],
-                                            className='col pr-5'
+                                            className='border-0',
                                         ),
-                                    ],
-                                    className='row p-5'
-                                ),                                
-                                html.Div (
-                                    [
-                                        html.Div(
-                                            id='table-concentracion',
-                                            className='table my-0 div-for-table-alertas'
-                                        ),
-                                    ],
-                                    className='row mx-0',
-                                ),
-                                html.Div (
-                                    [
-                                        html.Div(
-                                            id='count_entries-conc',
-                                            className='col my-auto',
-                                        ),
-                                        html.Div(
-                                            className='col my-auto buttons-footer-table',
-                                            children=[
-                                                    dbc.Button("Anterior", id='previous-page-conc', n_clicks=0, className='buttons-footer'), 
-                                                    dbc.Button("Siguiente", id='next-page-conc', n_clicks=0, className='buttons-footer'),
-                                            ],
-                                        ),
-                                    ],
-                                    className='row mai-datatable-footer'
-                                ),
+                                    ]),
                             ],
-                            className='border-0',
                         ),
                     ],
                     className='container',

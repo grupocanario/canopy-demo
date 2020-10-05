@@ -52,7 +52,7 @@ layout = html.Div(
                     [
                         html.P(
                             """
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Facilisis volutpat est velit egestas dui id ornare arcu odio. Id consectetur purus ut faucibus pulvinar elementum integer enim neque. Ut lectus arcu bibendum at varius vel pharetra. Dui ut ornare lectus sit amet est. Suspendisse potenti nullam ac tortor vitae. Duis tristique sollicitudin nibh sit amet commodo nulla facilisi. Sit amet consectetur adipiscing elit ut aliquam purus sit. Sed odio morbi quis commodo odio. Ac feugiat sed lectus vestibulum. Sodales neque sodales ut etiam sit amet nisl purus in. Nec ultrices dui sapien eget mi proin sed libero enim. Semper feugiat nibh sed pulvinar proin gravida hendrerit.
+                            En esta sección podrás revisar la información sobre la metodología de trabajo llevado a cabo por nuestro equipo para cada alerta. Te invitamos a revisar esta información si quieres saber más sobre el proceso llevado a cabo por Canopy para facilitar una veeduría ciudadana frente a los contratos adjudicados por la emergencia del Covid-19. 
                             """,
                         ),
                     ],
@@ -68,7 +68,7 @@ layout = html.Div(
                             [
                                 html.Div(
                                     """
-                                    Alerta transparencia
+                                    Alerta sobrecosto
                                     """,
                                     className='col-4 titles-metodologia text-center align-self-center'
                                 ),
@@ -94,7 +94,7 @@ layout = html.Div(
                             [
                                 html.Div(
                                     """
-                                    Alerta transparencia
+                                    Alerta transparencia    
                                     """,
                                     className='col-4 titles-metodologia text-center align-self-center'
                                 ),
@@ -120,7 +120,7 @@ layout = html.Div(
                             [
                                 html.Div(
                                     """
-                                    Alerta transparencia
+                                    Alerta concentración de contratistas
                                     """,
                                     className='col-4 titles-metodologia text-center align-self-center'
                                 ),
@@ -140,6 +140,32 @@ layout = html.Div(
                     className='py-6', 
                     style={'background-color': '#F9E178'}
                 ),
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.Div(
+                                    """
+                                    Alerta financiación de campañas
+                                    """,
+                                    className='col-4 titles-metodologia text-center align-self-center'
+                                ),
+                                html.Div(
+                                    html.P(
+                                        """
+                                        Purus sit amet luctus venenatis lectus. Tortor vitae purus faucibus ornare suspendisse sed. Commodo elit at imperdiet dui accumsan sit amet nulla. Donec ultrices tincidunt arcu non sodales. Proin libero nunc consequat interdum varius sit amet. Semper eget duis at tellus at. Donec pretium vulputate sapien nec. Tortor id aliquet lectus proin nibh nisl. Faucibus purus in massa tempor. Urna molestie at elementum eu. Ut etiam sit amet nisl. Mi ipsum faucibus vitae aliquet nec.
+                                        """,
+                                        
+                                    ),
+                                    className='col'
+                                )
+                            ],
+                            className='row px-8 lead'
+                        ),
+                    ],
+                    className='py-6', 
+                    style={'background-color': '#8989892e'}
+                ),
             ]
         ),
         html.Div(
@@ -148,8 +174,28 @@ layout = html.Div(
                     [
                         html.P(
                             """
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Facilisis volutpat est velit egestas dui id ornare arcu odio. Id consectetur purus ut faucibus pulvinar elementum integer enim neque. Ut lectus arcu bibendum at varius vel pharetra. Dui ut ornare lectus sit amet est. Suspendisse potenti nullam ac tortor vitae. Duis tristique sollicitudin nibh sit amet commodo nulla facilisi. Sit amet consectetur adipiscing elit ut aliquam purus sit. Sed odio morbi quis commodo odio. Ac feugiat sed lectus vestibulum. Sodales neque sodales ut etiam sit amet nisl purus in. Nec ultrices dui sapien eget mi proin sed libero enim. Semper feugiat nibh sed pulvinar proin gravida hendrerit.
+                            Adicionalmente, puede encontrar todo el código fuente del proyecto Canopy en GitHub
                             """,
+                        ),
+                        html.A(
+                            [
+                                html.Div(
+                                    [
+                                        html.Img(src='/../assets/logos/github.png', className='div-for-image-github')
+                                    ],
+                                ),
+                            ],
+                            href='https://github.com/grupocanario/canopy',
+                        ),
+                        html.P(
+                            """
+                            Para cualquier duda adicional, por favor comunicarse al correo
+                            """,
+                            className='pt-5',
+                        ),
+                        html.Div(
+                            'proyectocanopy@gmail.com', 
+                            className='row mx-auto justify-content-center pt-2 text-mail-contact',
                         ),
                     ],
                     className='px-8 my-5 py-5 text-center lead'

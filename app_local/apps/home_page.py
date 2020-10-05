@@ -217,9 +217,9 @@ layout = html.Div(
                                     [
                                         html.Img(src='/../assets/fotos_team/david.jpeg', className='div-for-image-team'),
                                         html.Div('David Gamba', className='font-weight-bold text-names-team font-medium'),
-                                        html.Div('Data Scientist', className='text-subtitle-team'),
+                                        html.Div('Sr. Data Scientist @ Mercado Libre', className='text-subtitle-team'),
                                         html.Div('''
-                                        Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut 
+                                        Soy Físico e Ingeniero de Sistemas. Creo firmemente que la ciencia y tecnología deben mejorar nuestras vidas.
                                         ''', className= 'text-description-team'
                                         ),
                                         html.Div(
@@ -236,9 +236,9 @@ layout = html.Div(
                                     [
                                         html.Img(src='/../assets/fotos_team/melissa.jpeg', className='div-for-image-team'),
                                         html.Div('Melissa Montes Martin', className='font-weight-bold text-names-team font-medium'),
-                                        html.Div('Data Scientist', className='text-subtitle-team'),
+                                        html.Div('Data Scientist @ Mercado Libre', className='text-subtitle-team'),
                                         html.Div('''
-                                        Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut 
+                                        Interesada en proyectos interdisciplinarios y en Data and Social Good. Actualmente trabaja en Mercado Libre como Data Scientist. 
                                         ''', className= 'text-description-team'
                                         ),
                                         html.Div(
@@ -256,7 +256,7 @@ layout = html.Div(
                                     [
                                         html.Img(src='/../assets/fotos_team/carlos.jpeg', className='div-for-image-team'),
                                         html.Div('Carlos Caro', className='font-weight-bold text-names-team font-medium'),
-                                        html.Div('Data Scientist', className='text-subtitle-team'),
+                                        html.Div('Instructor @ Uniandes', className='text-subtitle-team'),
                                         html.Div('''
                                         Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut 
                                         ''', className= 'text-description-team'
@@ -303,5 +303,36 @@ layout = html.Div(
             ],
             className = 'position-relative overflow-hidden text-center pb-2',
         ),
+
+        html.Div(
+            [
+                html.Div(
+                    [
+                        html.Div(
+                            'CÓDIGO ABIERTO', 
+                            className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                        ),
+                        html.Div(
+                            'En el Proyecto Canopy creemos en el código abierto. Si desea conocer el código fuente del proyecto, haga click al logo de GitHub o ingrese a github.com/grupocanario/canopy.', 
+                            className='row mx-auto justify-content-center pt-4 text-home-paragraph',
+                        ),
+                        html.A(
+                            [
+                                html.Div(
+                                    [
+                                        html.Img(src='/../assets/logos/github.svg', className='div-for-image-github')
+                                    ],
+                                    className='pt-4'
+                                ),
+                            ],
+                            href='https://github.com/grupocanario/canopy',
+                        ),
+                    ],
+                    className = 'container py-5 mt-2'
+                ),
+            ],
+            className = 'position-relative overflow-hidden text-center pb-2 div-for-quienes-somos',
+        ),
+
     ]
 )

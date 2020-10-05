@@ -49,10 +49,10 @@ steps_header_items = [html.Thead(
     ),
 )]
 
-row1 = html.Tr([html.P("1. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row2 = html.Tr([html.P("2. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row3 = html.Tr([html.P("3. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
-row4 = html.Tr([html.P("4. And an even wittier subheading to boot.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row1 = html.Tr([html.P("1. Comienza la búsqueda filtrando por el departamento tu interés.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row2 = html.Tr([html.P("2. En la primera columna de cada contrato podrás ver marcado con amarillo los contratos que presentan un sobrecosto, y en gris aquellos que no tienen la alerta.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row3 = html.Tr([html.P("3. Podrás ver los datos mas importantes de cada contrato, junto con información del item que se contrató.", className='m-3 lead font-weight-normal text-dark font-home-m')])
+row4 = html.Tr([html.P("4. Para más información puedes ir al link de la SECOP ubicado en la última columna de la tabla.", className='m-3 lead font-weight-normal text-dark font-home-m')])
 
 steps_body_items = [html.Tbody([row1, row2, row3, row4])]
 
@@ -100,14 +100,17 @@ layout = html.Div(
                                                     [
                                                         html.P(
                                                             """
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-                                                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                                                            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-                                                            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                                            En esta sección se muestra cuáles contratos de SECOP II tienen o no un sobrecosto en los productos adquiridos. En la tabla podrás observar todos los datos de la contratación, y  visualizar el precio máximo que tiene el ítem dentro de los Acuerdos Marco (precio máximo de mercado) comparado con el costo que tuvo dentro del contrato. 
                                                             """, 
                                                             className='lead font-weight-normal text-dark font-home-m'
                                                         ),
-                                                        dbc.Alert("This is a warning alert... be careful...", color="warning", style={'font-size':'15px'}, className='mt-5'),
+                                                        dbc.Alert(
+                                                            """
+                                                            Advertencia: Esta alarma se encuentra actualizada hasta el 15 de Junio de 2020, debido a que 
+                                                            Colombia Compra Eficiente implementó un sistema de CAPTCHA en SECOP II a partir de Agosto de 2020. 
+                                                            """,
+                                                             color="warning", style={'font-size':'15px'}, className='mt-5'
+                                                        ),
                                                     ],
                                                     className='mb-5',
                                                 ),
