@@ -152,6 +152,7 @@ df_transparency = df_transparency.sort_values(by='Fecha del contrato', ascending
 #     'valor_del_contrato': 'Valor del contrato',
 #     'items_per_contract': 'Items por contrato'
 # })
+# fin del comentarios
 
 # df_transparency = df_transparency[['Nombre de la entidad', 'Departamento', 'Municipio', 'Proveedor adjudicado', 'Valor del contrato',
 #              'Descripcion del contrato',  'SECOP URL']]
