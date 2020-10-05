@@ -25,6 +25,7 @@ import pandas as pd
 import numpy as np
 import json
 from urllib.request import urlopen
+import s3fs
 
 # VISOR DE DATOS -----------------
 
