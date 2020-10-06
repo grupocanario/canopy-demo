@@ -57,6 +57,22 @@ fig_map_2 = px.choropleth_mapbox(df_national_covid,
                           )
 fig_map_2.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
+# 1. Colombia cloropleth map: value of contracts per department
+fig_map_cuantia = px.choropleth_mapbox(df_national_covid,
+                           geojson=departments,
+                           locations='Code',
+                           color='Total cuantía contratos',
+                           featureidkey='properties.DPTO',
+                           hover_name='Departamento',
+                           color_continuous_scale="Peach",
+                           range_color=(min(df_national_covid['Total cuantía contratos'])-10000000, max(df_national_covid['Total cuantía contratos'])),
+                           mapbox_style="carto-positron",
+                           zoom=4,
+                           center = {"lat": 4.570868, "lon": -74.2973328},
+                           opacity=0.5
+                          )
+fig_map_cuantia.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+
 # 1. Colombia cloropleth map: Number of contracts per department
 fig_summary = px.bar(df_summary, x="Número de alertas", y="Alerta", orientation='h',
              height=500)
@@ -131,30 +147,37 @@ layout = html.Div(
                                     ],
                                     className='text-left pl-5 pr-5 text-center'
                                 ), 
-                                dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
+                                dcc.Tabs(
+                                    value = 'num_contratos',
+                                    colors={
+                                        "border": "white",
+                                        "primary": "#FFD608 ",
+                                        "background": "cornsilk"
+                                    },
+                                    parent_className='div-for-tab',
+                                    children=[
+                                        dcc.Tab(
+                                            label = 'Por número de contratos',
+                                            value = 'num_contratos',
+                                            children=[
+                                                dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
+                                            ],
+                                            className='div-for-tab'
+                                        ),
+                                        dcc.Tab(
+                                            label = 'Por cuantía ($) de contratos',
+                                            value = 'cuantia_contratos',
+                                            children=[
+                                                dcc.Graph(figure=fig_map_cuantia, className='div-for-graph-border')
+                                            ],
+                                            className='div-for-tab'
+                                        )
+                                    ]
+                                )
+                                
                             ],
                             className='col div-for-graph-card'
                         ),
-                            # html.Div(
-                            #     [
-                            #         html.Div(
-                            #             'Alertas tempranas de contratación', 
-                            #             className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
-                            #         ),
-                            #         html.Div(
-                            #             [
-                            #                 html.P(
-                            #                     """
-                            #                     Número de contratos detectados de COVID-19 con alertas para cada una de las categorías. 
-                            #                     """
-                            #                 ),
-                            #             ],
-                            #             className='text-left pl-5 pr-5 text-center'
-                            #         ), 
-                            #         dcc.Graph(figure=fig_summary, className='div-for-graph-border')
-                            #     ],
-                            #     className='col div-for-graph-card'
-                            # ),
                     ],
                     className='row',
                 ),

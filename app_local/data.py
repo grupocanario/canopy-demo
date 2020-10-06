@@ -27,23 +27,11 @@ import json
 from urllib.request import urlopen
 import s3fs
 
-# VISOR DE DATOS -----------------
-
-# 3. Dataframe SECOP I & II map (number of COVID contracts)
-df_raw_covid = pd.read_csv("https://raw.githubusercontent.com/carlosacaro/dataton_ocp/master/secop_all_is_covid.csv")
-
-df_covid = df_raw_covid.copy()
-df_national_covid = df_covid.groupby('departamento').size().reset_index(name='Num. contratos')
-df_national_covid = df_national_covid.rename(columns={'departamento':'Departamento'})
-df_national_covid['Departamento_upper'] = df_national_covid['Departamento'].str.upper()
-
+# Codes shape Colombia for mapping
 df_codes = pd.read_csv("https://raw.githubusercontent.com/melissamnt/code_utils/master/csv_department_codes.csv",
                    dtype={"cod": str})
 df_codes['Code'] = df_codes['Code'].astype('str')
 df_codes = df_codes.replace({'5': '05', '8': '08'})
-df_national_covid = pd.merge(df_national_covid, df_codes, left_on='Departamento_upper',  right_on='Departamento', how='left')
-df_national_covid = df_national_covid.rename(columns={'Departamento_x':'Departamento'}).drop(['Departamento_upper', 'Departamento_y'], axis=1)
-
 
 
 # ALERTA ITEMS -----------------
@@ -136,6 +124,7 @@ df_transparency = df_transparency.sort_values(by='Fecha del contrato', ascending
 # 5. Dataframe SECOP I & II nombre de top 10 contratistas por depto
 df_proov = pd.read_csv('s3://proyectocanopy/alarma_concentracion_valor_contratistas.csv')
 df_proov = df_proov.drop_duplicates(subset=['contratista_ids', 'departamento_def'])
+df_national_raw = df_proov.copy()  # Para global covid
 
 # Only first 10 
 df_proov['RN'] = df_proov.sort_values(['pct_def'], ascending=[False]) \
@@ -236,6 +225,34 @@ graph_f_df = graph_f_df.iloc[-11:-1,:]
 
 del df_financiacion
 del financiacion
+
+
+# VISOR DE DATOS -----------------
+
+# 3. Dataframe SECOP I & II map (number of COVID contracts)
+# Grouping by number and sum of contracts
+df_national_covid = df_national_raw.groupby(['departamento_def']).agg(
+    num_contratos=('val_contratista', 'count'),
+    sum_contratos=('val_contratista', 'sum'),
+).reset_index()
+
+# Formatting with capitalization
+df_national_covid['departamento_def'] = df_national_covid['departamento_def'].str.capitalize()
+# Upper for joins 
+df_national_covid['Departamento_upper'] = df_national_covid['departamento_def'].str.upper()
+df_national_covid['Departamento_upper'] = df_national_covid['Departamento_upper'].replace('QUINDIO', 'QUINDÍO')
+
+# Joining with codes
+df_national_covid = pd.merge(df_national_covid, df_codes, left_on='Departamento_upper',  right_on='Departamento', how='left')
+
+# Rename colums
+df_national_covid = df_national_covid.drop('Departamento', axis=1)
+df_national_covid = df_national_covid.rename(columns={'departamento_def': 'Departamento',
+                                                     'num_contratos': 'Num. contratos',
+                                                     'sum_contratos': 'Total cuantía contratos'})
+df_national_covid = df_national_covid[['Departamento', 'Num. contratos', 'Total cuantía contratos', 'Code']]
+
+
 
 # SUMMARY ALL GRAPHS ------------------------
 num_sobrecosto = len(df_items[df_items['Alerta de sobrecosto']=='Si'])

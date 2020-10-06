@@ -238,7 +238,7 @@ layout = html.Div(
                                         html.Div('Melissa Montes Martin', className='font-weight-bold text-names-team font-medium'),
                                         html.Div('Data Scientist @ Mercado Libre', className='text-subtitle-team'),
                                         html.Div('''
-                                        Interesada en proyectos interdisciplinarios y en Data and Social Good. Actualmente trabaja en Mercado Libre como Data Scientist. 
+                                        Interesada en proyectos interdisciplinarios, en Data and Social Good y en cerrar la brecha de género en Data. 
                                         ''', className= 'text-description-team'
                                         ),
                                         html.Div(

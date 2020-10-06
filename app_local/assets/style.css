@@ -466,6 +466,11 @@ a {
   padding-right: 2.5rem !important;
 }
 
+.div-for-tab {
+  font-family: "Roboto";
+  font-size: 15px;
+}
+
 
 .logo {
   height: 100px;
