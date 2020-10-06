@@ -27,6 +27,8 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from importlib import import_module
+import warnings
+
 
 
 from app import app
@@ -38,6 +40,8 @@ server = app.server
 
 
 CANOPY_LOGO = "/assets/logos/Canopy_Black_Transparente-01.png"
+
+warnings.filterwarnings("ignore")
 
 navbar_children = dbc.Nav(
     [

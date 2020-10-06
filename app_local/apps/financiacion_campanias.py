@@ -38,7 +38,7 @@ import json
 from data import df_national_covid
 
 from app import app
-from data import df_proov, df_proov_cum
+from data import df_financiacion_final, graph_f_df
 
 # Table parameters ------------
 PAGE_SIZE = 10
@@ -67,7 +67,7 @@ steps_table = html.Table(steps_header + steps_body)
 
 # Filters table
 filter_depto_fin = dcc.Dropdown(
-    options=[{'label': i, 'value': i} for i in df_proov.Departamento.drop_duplicates()],
+    options=[{'label': i, 'value': i} for i in df_financiacion_final['Departamento contrato'].fillna('Sin Definir').drop_duplicates()],
     value=None,
     id='filter-depto-fin',
 )  
@@ -75,44 +75,20 @@ filter_depto_fin = dcc.Dropdown(
 # GRAPHS ----------------------
 
 # 1. Colombia cloropleth map: Number of contracts per department
-
-with urlopen('https://gist.githubusercontent.com/john-guerra/43c7656821069d00dcbc/raw/3aadedf47badbdac823b00dbe259f6bc6d9e1899/colombia.geo.json') as response:
-    departments = json.load(response)
-
-fig_map_2 = px.choropleth_mapbox(df_proov_cum,
-                           geojson=departments,
-                           locations='Code',
-                           color='Pct proveedores',
-                           featureidkey='properties.DPTO',
-                           hover_name='Departamento',
-                           color_continuous_scale="Mint",
-                        #    color_continuous_scale=["#FFF1A8", "#FFD608"],
-                           range_color=(min(df_proov_cum['Pct proveedores']), max(df_proov_cum['Pct proveedores'])),
-                           mapbox_style="carto-positron",
-                           zoom=4,
-                           center = {"lat": 4.570868, "lon": -74.2973328},
-                           opacity=0.5
-                          )
-fig_map_2.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-
-# 2. Bar Plot
-
-trace_1 = go.Bar(x=df_proov_cum['Pct proveedores'], y=df_proov_cum['Departamento'], orientation='h')
-
-layout = go.Layout(hovermode = 'closest')
-fig = go.Figure(data = [trace_1], layout = layout)#
-fig.update_layout(
+fig_financiacion = px.bar(graph_f_df, x="Num contratos", y="Organización Política", orientation='h',
+             height=500)
+fig_financiacion.update_layout(
     font=dict(
         color="#252525",
         family="Roboto"
     ),
     paper_bgcolor='rgba(0,0,0,0)',
     plot_bgcolor='rgba(0,0,0,0)',
-    xaxis_title="% concentracion 10 primeros contratistas",
-    yaxis=dict(dtick = 1),
-    margin={"r":0,"t":0,"l":0,"b":0}
+    xaxis_title="Numero de contratos asignados a financiadores",
+    yaxis_title='',
+    margin={"r":5,"t":5,"l":0,"b":0}
 )
-fig.update_traces(marker_color='#FFD608')
+fig_financiacion.update_traces(marker_color='#FFD608')
 
 # Section layout --------------------
 
@@ -179,7 +155,7 @@ layout = html.Div(
                                                 html.A(
                                                     'Ver Mas', 
                                                     className='btn btn-outline-secondary p-3 text-dark font-home-m btn-ver-alerta', 
-                                                    href="#graficas-fin",
+                                                    href="#table-fin",
                                                 ),
                                             ],
                                             className='row mx-auto justify-content-center mt-5',
@@ -190,10 +166,10 @@ layout = html.Div(
                                                 html.Div(
                                                     [
                                                         html.Div(
-                                                            'Mapa', 
-                                                            className='row mb-2 pb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                                                            'Partidos políticos con mayor número de contratos asignados a financiadores', 
+                                                            className='row mb-2 pb-5 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
                                                         ),
-                                                        dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
+                                                        dcc.Graph(figure=fig_financiacion, className='div-for-graph-border')
                                                     ],
                                                     className='col div-for-graph-card div-for-graph-individual'
                                                 ),
@@ -219,7 +195,7 @@ layout = html.Div(
                                 html.Div (
                                     [
                                         html.Div(
-                                            "Concentracion de contratistas",
+                                            "Financiacióin de campañas",
                                             className= 'col align-items-center text-header-table',
                                             style={'display': 'flex'},
                                         ),
@@ -266,6 +242,7 @@ layout = html.Div(
                 ),
             ],
             className='main-content-table',
+            id='table-fin',
         ),
     ]
 )
@@ -304,32 +281,32 @@ def update_table(btn_prev, btn_next, depto_filter):
     if 'filter-depto-fin' in changed_id and depto_filter != None:
         MIN_VAL_CAMPANIAS = 0
         MAX_VAL_CAMPANIAS = 10
-        df_subset = df_proov[df_proov['Departamento']==depto_filter]
+        df_subset = df_financiacion_final[df_financiacion_final['Departamento contrato']==depto_filter]
 
 
     if depto_filter != None:
-        df_subset = df_proov[df_proov['Departamento']==depto_filter]
+        df_subset = df_financiacion_final[df_financiacion_final['Departamento contrato']==depto_filter]
     else:
-        df_subset = df_proov.copy()
+        df_subset = df_financiacion_final.copy()
 
-    LEN_DF_COMPLETE_ITEMS = len(df_subset)
+    LEN_DF_COMPLETE_CAMPANIAS = len(df_subset)
 
     # Sorting table
-    df_subset = df_subset.sort_values(by='Pct acumulado de contratos')
+    df_subset = df_subset.sort_values(by='Fecha del contrato', ascending=False)
 
     if 'previous-page-fin' in changed_id:
         MIN_VAL_CAMPANIAS = max(0, MIN_VAL_CAMPANIAS-NUM_ENTRIES_CAMPANIAS-1)
-        MAX_VAL_CAMPANIAS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_CAMPANIAS-NUM_ENTRIES_CAMPANIAS-1)
+        MAX_VAL_CAMPANIAS = min(LEN_DF_COMPLETE_CAMPANIAS, MAX_VAL_CAMPANIAS-NUM_ENTRIES_CAMPANIAS-1)
     elif 'next-page-fin' in changed_id:
         MIN_VAL_CAMPANIAS = max(0, MIN_VAL_CAMPANIAS+NUM_ENTRIES_CAMPANIAS+1)
-        MAX_VAL_CAMPANIAS = min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_CAMPANIAS+NUM_ENTRIES_CAMPANIAS+1)
+        MAX_VAL_CAMPANIAS = min(LEN_DF_COMPLETE_CAMPANIAS, MAX_VAL_CAMPANIAS+NUM_ENTRIES_CAMPANIAS+1)
 
     if MIN_VAL_CAMPANIAS < 1:
         disabled_prev = True
     else:
         disabled_prev = False
 
-    if MAX_VAL_CAMPANIAS >= LEN_DF_COMPLETE_ITEMS:
+    if MAX_VAL_CAMPANIAS >= LEN_DF_COMPLETE_CAMPANIAS:
         disabled_next = True
     else:
         disabled_next = False
@@ -358,6 +335,6 @@ def update_table(btn_prev, btn_next, depto_filter):
         style={"overflowY": "scroll", 'width': '100%'}
     )
 
-    text_entries = 'Mostrando {} a {} de {} resultados'.format(MIN_VAL_CAMPANIAS+1, min(LEN_DF_COMPLETE_ITEMS, MAX_VAL_CAMPANIAS+1), LEN_DF_COMPLETE_ITEMS)
+    text_entries = 'Mostrando {} a {} de {} resultados'.format(MIN_VAL_CAMPANIAS+1, min(LEN_DF_COMPLETE_CAMPANIAS, MAX_VAL_CAMPANIAS+1), LEN_DF_COMPLETE_CAMPANIAS)
     
     return table_final, text_entries, disabled_prev, disabled_next

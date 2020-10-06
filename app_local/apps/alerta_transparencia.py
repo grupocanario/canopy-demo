@@ -60,7 +60,7 @@ steps_table = html.Table(steps_header + steps_body)
 
 # Filters table
 filter_depto = dcc.Dropdown(
-    options=[{'label': i, 'value': i} for i in df_transparency.Departamento.drop_duplicates()],
+    options=[{'label': i, 'value': i} for i in df_transparency.Departamento.fillna('Sin Definir').drop_duplicates()],
     value=None,
     id='filter-depto',
 )  
@@ -132,21 +132,21 @@ layout = html.Div(
                             ],
                             className='row mx-auto justify-content-center mt-5',
                         ),
-                        html.Div(
-                            [
-                                html.Div(
-                                    [
-                                        html.Div(
-                                            'Mapa', 
-                                            className='row mb-2 pb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
-                                        ),
-                                        dcc.Graph(className='div-for-graph-border div-for-graph-individual')
-                                    ],
-                                    className='col div-for-graph-card'
-                                ),
-                            ],
-                            className='row',
-                        ),
+                        # html.Div(
+                        #     [
+                        #         html.Div(
+                        #             [
+                        #                 html.Div(
+                        #                     'Mapa', 
+                        #                     className='row mb-2 pb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                        #                 ),
+                        #                 dcc.Graph(className='div-for-graph-border div-for-graph-individual')
+                        #             ],
+                        #             className='col div-for-graph-card'
+                        #         ),
+                        #     ],
+                        #     className='row',
+                        # ),
                     ],
                     className='mx-auto mb-5 mt-1',
                 ),

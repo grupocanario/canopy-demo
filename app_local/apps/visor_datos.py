@@ -32,7 +32,7 @@ from urllib.request import urlopen
 import json
 
 # Loading dataframes
-from data import df_national_covid
+from data import df_national_covid, df_summary
 
 
 # GRAPHS ----------------------
@@ -57,6 +57,20 @@ fig_map_2 = px.choropleth_mapbox(df_national_covid,
                           )
 fig_map_2.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
+# 1. Colombia cloropleth map: Number of contracts per department
+fig_summary = px.bar(df_summary, x="Número de alertas", y="Alerta", orientation='h',
+             height=500)
+fig_summary.update_layout(
+    font=dict(
+        color="#252525",
+        family="Roboto"
+    ),
+    paper_bgcolor='rgba(0,0,0,0)',
+    plot_bgcolor='rgba(0,0,0,0)',
+    xaxis_title="Numero de contratos con alertas",
+    yaxis_title='',
+    margin={"r":0,"t":0,"l":0,"b":0}
+)
 
 
 layout = html.Div(
@@ -121,26 +135,26 @@ layout = html.Div(
                             ],
                             className='col div-for-graph-card'
                         ),
-                        html.Div(
-                            [
-                                html.Div(
-                                    'Alertas tempranas de contratación', 
-                                    className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
-                                ),
-                                html.Div(
-                                    [
-                                        html.P(
-                                            """
-                                            Número de contratos detectados de COVID-19 con alertas para cada una de las categorías. 
-                                            """
-                                        ),
-                                    ],
-                                    className='text-left pl-5 pr-5 text-center'
-                                ), 
-                                dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
-                            ],
-                            className='col div-for-graph-card'
-                        ),
+                            # html.Div(
+                            #     [
+                            #         html.Div(
+                            #             'Alertas tempranas de contratación', 
+                            #             className='row mb-2 display-4 font-weight-bold text-home-title mx-auto justify-content-center font-medium',
+                            #         ),
+                            #         html.Div(
+                            #             [
+                            #                 html.P(
+                            #                     """
+                            #                     Número de contratos detectados de COVID-19 con alertas para cada una de las categorías. 
+                            #                     """
+                            #                 ),
+                            #             ],
+                            #             className='text-left pl-5 pr-5 text-center'
+                            #         ), 
+                            #         dcc.Graph(figure=fig_summary, className='div-for-graph-border')
+                            #     ],
+                            #     className='col div-for-graph-card'
+                            # ),
                     ],
                     className='row',
                 ),
