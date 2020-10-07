@@ -166,7 +166,7 @@ layout = html.Div(
                                     [
                                         html.Div(
                                             [
-                                                html.Img(src='/../assets/logos/SECOP-1.png', className='div-for-image-secop-i')
+                                                html.Img(src='/../assets/logos/secopii.jpeg', className='div-for-image-secop-ii')
                                             ],
                                             className='col'
                                         ),
@@ -258,7 +258,7 @@ layout = html.Div(
                                         html.Div('Carlos Caro', className='font-weight-bold text-names-team font-medium'),
                                         html.Div('Instructor @ Uniandes', className='text-subtitle-team'),
                                         html.Div('''
-                                        Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut 
+                                        Me apasiona desarrollar soluciones tecnológicas de ciencia de datos con desarrollo e impacto social. 
                                         ''', className= 'text-description-team'
                                         ),
                                         html.Div(

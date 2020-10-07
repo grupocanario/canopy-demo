@@ -187,6 +187,11 @@ a {
   height: 40px;
 }
 
+.div-for-image-secop-ii {
+  height: 54px;
+  padding-top: 5px;
+}
+
 .div-for-image-compra-eficiente {
   height: 70px;
 }
@@ -469,6 +474,7 @@ a {
 .div-for-tab {
   font-family: "Roboto";
   font-size: 15px;
+  color: grey;
 }
 
 

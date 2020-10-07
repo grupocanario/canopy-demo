@@ -255,9 +255,8 @@ def reload_table_counters():
     [Output("table-items", "children"),
     Output("count_entries-items", "children"),
     Output("previous-page-items", "disabled"),
-    Output("next-page-items", "disabled")
-    ], 
-    [Input('previous-page-items', 'n_clicks'),
+    Output("next-page-items", "disabled")], 
+    [Input('previous-page-items', 'n_clicks'), 
     Input('next-page-items', 'n_clicks'),
     Input('filter-depto-items', 'value')])
 def update_table(btn_prev, btn_next, depto_filter):

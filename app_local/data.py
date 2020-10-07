@@ -32,12 +32,13 @@ df_codes = pd.read_csv("https://raw.githubusercontent.com/melissamnt/code_utils/
                    dtype={"cod": str})
 df_codes['Code'] = df_codes['Code'].astype('str')
 df_codes = df_codes.replace({'5': '05', '8': '08'})
+df_codes = df_codes.replace({'BOGOTÁ D.C.': 'BOGOTÁ'})
 
 
 # ALERTA ITEMS -----------------
 
 # 1. Dataframe SECOP I & II items
-df_raw_items = pd.read_csv("https://storage.googleapis.com/secop_data/secop_join_suministros_w_sobrecosto.csv")
+df_raw_items = pd.read_csv("s3://proyectocanopy/secop_join_suministros_w_sobrecosto.csv")
 df_items = df_raw_items.copy()
 
 # Formatting with $ 
@@ -73,6 +74,7 @@ df_items = df_items[['Alerta de sobrecosto', 'Descripción del item', 'Nombre de
              'Descripcion del contrato', 
              'Tipo de contrato', 'SECOP URL']]
 df_items['Alerta de sobrecosto'] = np.where(df_items['Alerta de sobrecosto']==True, 'Si', 'No')
+df_items = df_items[df_items['Alerta de sobrecosto']=='Si']
 
 
 entidades_items = df_items['Municipio'].unique()

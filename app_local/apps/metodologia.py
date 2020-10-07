@@ -75,7 +75,7 @@ layout = html.Div(
                                 html.Div(
                                     html.P(
                                         """
-                                        Purus sit amet luctus venenatis lectus. Tortor vitae purus faucibus ornare suspendisse sed. Commodo elit at imperdiet dui accumsan sit amet nulla. Donec ultrices tincidunt arcu non sodales. Proin libero nunc consequat interdum varius sit amet. Semper eget duis at tellus at. Donec pretium vulputate sapien nec. Tortor id aliquet lectus proin nibh nisl. Faucibus purus in massa tempor. Urna molestie at elementum eu. Ut etiam sit amet nisl. Mi ipsum faucibus vitae aliquet nec.
+                                        En esta alerta comparamos los precios de los Acuerdos Marco encontrados en Colombia Compra Eficiente del COVID-19 como precios de referencia de mercado, y los comparamos con el valor del precio unitario de los contratos en el SECOP II. La información extraída de SECOP II para hacer la comparación de precio unitario en el contrato es el número de ítems/valor total del contrato.
                                         """,
                                         
                                     ),
@@ -101,7 +101,7 @@ layout = html.Div(
                                 html.Div(
                                     html.P(
                                         """
-                                        Purus sit amet luctus venenatis lectus. Tortor vitae purus faucibus ornare suspendisse sed. Commodo elit at imperdiet dui accumsan sit amet nulla. Donec ultrices tincidunt arcu non sodales. Proin libero nunc consequat interdum varius sit amet. Semper eget duis at tellus at. Donec pretium vulputate sapien nec. Tortor id aliquet lectus proin nibh nisl. Faucibus purus in massa tempor. Urna molestie at elementum eu. Ut etiam sit amet nisl. Mi ipsum faucibus vitae aliquet nec.
+                                        Extraemos la información de la API de OCDS y revisamos la categoría de tender y el campo de ítems, para ver la clasificación de los bienes o servicios del contrato. En caso de que el contrato no cuente con una clasificación clara del contrato, se reporta una alarma de transparencia.
                                         """,
                                         
                                     ),
@@ -127,7 +127,7 @@ layout = html.Div(
                                 html.Div(
                                     html.P(
                                         """
-                                        Purus sit amet luctus venenatis lectus. Tortor vitae purus faucibus ornare suspendisse sed. Commodo elit at imperdiet dui accumsan sit amet nulla. Donec ultrices tincidunt arcu non sodales. Proin libero nunc consequat interdum varius sit amet. Semper eget duis at tellus at. Donec pretium vulputate sapien nec. Tortor id aliquet lectus proin nibh nisl. Faucibus purus in massa tempor. Urna molestie at elementum eu. Ut etiam sit amet nisl. Mi ipsum faucibus vitae aliquet nec.
+                                        Tomamos la información de SECOP I y II y agregamos por los campos de departamento, nit_contratista y valor total del contrato. Posteriormente, dividimos el valor resultante para cada contratista sobre el valor total contratado para el respectivo departamento.
                                         """,
                                         
                                     ),
@@ -153,7 +153,7 @@ layout = html.Div(
                                 html.Div(
                                     html.P(
                                         """
-                                        Purus sit amet luctus venenatis lectus. Tortor vitae purus faucibus ornare suspendisse sed. Commodo elit at imperdiet dui accumsan sit amet nulla. Donec ultrices tincidunt arcu non sodales. Proin libero nunc consequat interdum varius sit amet. Semper eget duis at tellus at. Donec pretium vulputate sapien nec. Tortor id aliquet lectus proin nibh nisl. Faucibus purus in massa tempor. Urna molestie at elementum eu. Ut etiam sit amet nisl. Mi ipsum faucibus vitae aliquet nec.
+                                        Realizamos la comparación de la base de datos obtenida del visor ciudadano de Transparencia por Colombia [https://www.monitorciudadano.co/elecciones-contratos/descargas] sobre los financiadores de campañas políticas y la cruzamos con el nit_contratista de la base de datos del SECOP I y II obtenida de la API en el estándar OCDS. Reportamos entonces la información sobre el contratista, el contrato y el político al que realizó la financiación.
                                         """,
                                         
                                     ),

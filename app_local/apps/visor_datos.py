@@ -162,7 +162,8 @@ layout = html.Div(
                                             children=[
                                                 dcc.Graph(figure=fig_map_2, className='div-for-graph-border')
                                             ],
-                                            className='div-for-tab'
+                                            className='div-for-tab',
+                                            selected_className='font-weight-bold',
                                         ),
                                         dcc.Tab(
                                             label = 'Por cuantía ($) de contratos',
@@ -170,7 +171,8 @@ layout = html.Div(
                                             children=[
                                                 dcc.Graph(figure=fig_map_cuantia, className='div-for-graph-border')
                                             ],
-                                            className='div-for-tab'
+                                            className='div-for-tab',
+                                            selected_className='font-weight-bold',
                                         )
                                     ]
                                 )
