@@ -133,18 +133,17 @@ app.layout = html.Div(
         html.Div(id='blank-output'), # only for the name in the tab
         dcc.Location(id="url", refresh=False),
         navbar,
-        # Column for user controls (SIDE BAR)
-        # dbc.Spinner(
-        #     children=[
+        # Column for user controls (SIDE BAR) 
+        dcc.Loading(  
+            id="loading-1",
+            type="circle",
+            fullscreen=True,
+            children=[
                 html.Div(
                     id="content"
                 ),
-            # ],
-            # size="lg", color="primary", type="border", 
-        #     spinnerClassName='spinner',
-        #     type=None,
-        #     fullscreen=True,
-        # ),
+            ],
+        ),
         footer
     ]
 )
