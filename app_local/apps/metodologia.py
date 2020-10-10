@@ -185,7 +185,7 @@ layout = html.Div(
                                     ],
                                 ),
                             ],
-                            href='https://github.com/grupocanario/canopy',
+                            href='https://github.com/grupocanario',
                         ),
                         html.P(
                             """

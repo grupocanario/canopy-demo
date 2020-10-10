@@ -325,7 +325,7 @@ layout = html.Div(
                                     className='pt-4'
                                 ),
                             ],
-                            href='https://github.com/grupocanario/canopy',
+                            href='https://github.com/grupocanario',
                         ),
                     ],
                     className = 'container py-5 mt-2'
